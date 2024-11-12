@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ManagerMainWindow</class>
+ <widget class="QMainWindow" name="ManagerMainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>931</width>
+    <height>791</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Главное окно - (Менеджер)</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMenuBar {
+background-color: rgb(250, 234, 153);
+font: 87 10pt &quot;Arial Black&quot;;
+padding-left: 3px;
+	color: rgb(82, 30, 1);
+}
+
+QMenuBar::item {
+spacing: 3px; /* spacing between menu bar items */
+padding: 1px 4px;
+background: transparent;
+border-radius: 4px;
+background-color: rgb(250, 234, 153);
+}
+
+QMenuBar::item:selected { /* when selected using mouse or keyboard */
+background: #fac983;
+}
+
+QMenu {
+background-color: rgb(149, 166, 174); 
+	font: 75 8pt &quot;Arial Black&quot;;
+}
+
+QMenu::item {
+background-color: transparent;
+}
+
+QMenu::item:selected {
+background-color: #fac983; /* rot */
+}
+QWidget{background-color: rgb(255, 253, 223);}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_2"/>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>931</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="selectEmployeeTableAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Выбрать</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>Поиск...</string>
+   </property>
+  </action>
+  <action name="viewProfileInfoAction">
+   <property name="text">
+    <string>Показать</string>
+   </property>
+  </action>
+  <action name="quitSessionAction">
+   <property name="text">
+    <string>Выход</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

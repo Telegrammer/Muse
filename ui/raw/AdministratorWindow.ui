@@ -1,0 +1,1324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AdministratorMainWindow</class>
+ <widget class="QMainWindow" name="AdministratorMainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>979</width>
+    <height>968</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Главное окно (Администратор)</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMenuBar {
+background-color: rgb(250, 234, 153);
+font: 87 10pt &quot;Arial Black&quot;;
+padding-left: 3px;
+	color: rgb(82, 30, 1);
+}
+
+QMenuBar::item {
+spacing: 3px; /* spacing between menu bar items */
+padding: 1px 4px;
+background: transparent;
+border-radius: 4px;
+background-color: rgb(250, 234, 153);
+}
+
+QMenuBar::item:selected { /* when selected using mouse or keyboard */
+background: #fac983;
+}
+
+QMenu {
+background-color: rgb(149, 166, 174); 
+	font: 75 8pt &quot;Arial Black&quot;;
+}
+
+QMenu::item {
+background-color: transparent;
+}
+
+QMenu::item:selected {
+background-color: #fac983; /* rot */
+}
+QWidget{background-color: rgb(255, 253, 223);}
+
+</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <spacer name="verticalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Preferred</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>10</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QLabel" name="employeeLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial Black</family>
+          <pointsize>12</pointsize>
+          <weight>10</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+	font: 87 12pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}</string>
+        </property>
+        <property name="text">
+         <string>Сотрудники</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="setVisibleEmployeeTableButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
+
+QWidget {
+	border 1px solid;
+	border-radius: 20px;
+	background-color: transparent;
+	
+}
+
+QPushButton {
+	border-radius: 20px;
+    border-style: outset;
+
+}
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0.7 #faea99, stop: 1 #521e01
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #521e01
+        );
+    }</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>components/inactive drop button.png</normaloff>components/inactive drop button.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QWidget" name="adminEmployeeTable" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>291</width>
+        <height>321</height>
+       </size>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QTableWidget" name="employeeTable">
+         <property name="styleSheet">
+          <string notr="true">
+QTableWidgetItem {
+	font: 8pt &quot;Arial&quot;;
+}
+
+QWidget {background-color: rgb(255, 245, 183);}
+
+QAbstractItemView {
+
+	font: 8pt &quot;Arial Black&quot;;
+}
+
+QAbstractScrollArea {
+	
+	border-radius: 10px;
+}
+
+ QScrollBar::handle:vertical {
+    background: #fac983
+ }
+
+QScrollBar::handle:horizontal {
+    background: #fac983;
+ }
+</string>
+         </property>
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+         <property name="columnCount">
+          <number>4</number>
+         </property>
+         <attribute name="horizontalHeaderCascadingSectionResizes">
+          <bool>false</bool>
+         </attribute>
+         <attribute name="horizontalHeaderDefaultSectionSize">
+          <number>115</number>
+         </attribute>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>true</bool>
+         </attribute>
+         <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+          <bool>false</bool>
+         </attribute>
+         <attribute name="verticalHeaderStretchLastSection">
+          <bool>false</bool>
+         </attribute>
+         <row>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>2</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>3</string>
+          </property>
+         </row>
+         <column>
+          <property name="text">
+           <string>Фио</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Должность</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Номер телефона</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Дата рождения</string>
+          </property>
+         </column>
+         <item row="0" column="0">
+          <property name="text">
+           <string>Иванов И. И.</string>
+          </property>
+         </item>
+         <item row="0" column="1">
+          <property name="text">
+           <string>Куратор (выпадающий список)</string>
+          </property>
+         </item>
+         <item row="0" column="2">
+          <property name="text">
+           <string>88005553535 (проверка формата)</string>
+          </property>
+         </item>
+         <item row="0" column="3">
+          <property name="text">
+           <string>20-21-2024 (проверка формата)</string>
+          </property>
+         </item>
+         <item row="1" column="0">
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="employeeTableEditLayout">
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Preferred</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="editEmployeeButton">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QWidget {
+	background-color: rgb(250, 234, 153);
+	border: 1px solid rgb(250, 201, 131);
+	border-radius: 10px;
+	text-align: center;
+}
+
+QAbstractButton {
+	
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}
+QPushButton:hover:!pressed {
+  border: 2px solid rga(250, 201, 131);
+}
+
+
+
+QPushButton:!enabled {
+	
+	background: rgba(160, 160, 160, 100);
+	font: 87 8pt &quot;Arial Black&quot;;
+	border: 1px solid rgb(150, 150, 150);
+	border-radius: 10px;
+	color: rgba(82, 30, 1, 100);
+}</string>
+           </property>
+           <property name="text">
+            <string>Редактировать</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="addEmployeeButton">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QWidget {
+	background-color: rgb(250, 234, 153);
+	border: 1px solid rgb(250, 201, 131);
+	border-radius: 10px;
+	text-align: center;
+}
+
+QAbstractButton {
+	
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}
+QPushButton:hover:!pressed {
+  border: 2px solid rgb(250, 201, 131);
+}</string>
+           </property>
+           <property name="text">
+            <string>Добавить сотрудника</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="removeEmployeeButton">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QWidget {
+	background-color: rgb(250, 234, 153);
+	border: 1px solid rgb(250, 201, 131);
+	border-radius: 10px;
+	text-align: center;
+}
+
+QAbstractButton {
+	
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}
+QPushButton:hover:!pressed {
+  border: 2px solid rgb(250, 201, 131);
+}</string>
+           </property>
+           <property name="text">
+            <string>Уволить сотрудника</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="findEmployeeButton">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QWidget {
+	background-color: rgb(250, 234, 153);
+	border: 1px solid rgb(250, 201, 131);
+	border-radius: 10px;
+	text-align: center;
+}
+
+QAbstractButton {
+	
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}
+QPushButton:hover:!pressed {
+  border: 2px solid rgb(250, 201, 131);
+}</string>
+           </property>
+           <property name="text">
+            <string>Поиск</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="sortEmployeeTypeLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}</string>
+           </property>
+           <property name="text">
+            <string>Параметры сортировки:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxName">
+           <property name="styleSheet">
+            <string notr="true">
+
+padding-left: 5px;
+font: 8pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Фамилия</string>
+           </property>
+           <property name="tristate">
+            <bool>true</bool>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">sortTypeEmployeeButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxJob">
+           <property name="styleSheet">
+            <string notr="true">
+padding-left: 5px;
+font: 8pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Должность</string>
+           </property>
+           <property name="tristate">
+            <bool>false</bool>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">sortTypeEmployeeButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="sortEmployeeOrderLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}</string>
+           </property>
+           <property name="text">
+            <string>Порядок сортировки:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="empRadioButtonAscending">
+           <property name="styleSheet">
+            <string notr="true">
+padding-left: 5px;
+font: 8pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>По возрастанию</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">sortOrderEmployeeButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="empRadioButtonDescending">
+           <property name="styleSheet">
+            <string notr="true">
+padding-left: 5px;
+font: 8pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>По убыванию</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">sortOrderEmployeeButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="sortEmployeeButton">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QWidget {
+	background-color: rgb(250, 234, 153);
+	border: 1px solid rgb(250, 201, 131);
+	border-radius: 10px;
+	text-align: center;
+}
+
+QAbstractButton {
+	
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}
+QPushButton:hover:!pressed {
+  border: 2px solid rgb(250, 201, 131);
+}</string>
+           </property>
+           <property name="text">
+            <string>Сортировать</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QLabel" name="exhibitLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial Black</family>
+          <pointsize>12</pointsize>
+          <weight>10</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+	font: 87 12pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}</string>
+        </property>
+        <property name="text">
+         <string>Экспонаты</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="setVisibleExhibitTableButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
+
+QWidget {
+	border 1px solid;
+	border-radius: 20px;
+	background-color: transparent;
+	
+}
+
+QPushButton {
+	border-radius: 20px;
+    border-style: outset;
+
+}
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0.7 #faea99, stop: 1 #521e01
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #521e01
+        );
+    }</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>components/inactive drop button.png</normaloff>components/inactive drop button.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QWidget" name="adminExhibitTable" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>301</width>
+        <height>400</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QTableWidget" name="exhibitTable">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">
+QTableWidgetItem {
+	font: 8pt &quot;Arial&quot;;
+}
+
+QWidget {background-color: rgb(255, 245, 183);}
+
+QAbstractItemView {
+
+	font: 8pt &quot;Arial Black&quot;;
+}
+
+QAbstractScrollArea {
+	
+	border-radius: 10px;
+}
+
+ QScrollBar::handle:vertical {
+    background: #fac983
+ }
+
+QScrollBar::handle:horizontal {
+    background: #fac983;
+ }
+</string>
+         </property>
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+         <property name="columnCount">
+          <number>7</number>
+         </property>
+         <attribute name="horizontalHeaderCascadingSectionResizes">
+          <bool>false</bool>
+         </attribute>
+         <attribute name="horizontalHeaderDefaultSectionSize">
+          <number>115</number>
+         </attribute>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>true</bool>
+         </attribute>
+         <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+          <bool>false</bool>
+         </attribute>
+         <attribute name="verticalHeaderStretchLastSection">
+          <bool>false</bool>
+         </attribute>
+         <row>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>2</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>3</string>
+          </property>
+         </row>
+         <column>
+          <property name="text">
+           <string>Название</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Вид экспоната</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Зал</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Размер</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Год создания</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Описание</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Происхождение</string>
+          </property>
+         </column>
+         <item row="0" column="0">
+          <property name="text">
+           <string>Тотем тест</string>
+          </property>
+         </item>
+         <item row="0" column="1">
+          <property name="text">
+           <string>Тотем (должен быть выпадающий список)</string>
+          </property>
+         </item>
+         <item row="0" column="2">
+          <property name="text">
+           <string>Зал тест (выпадающий список)</string>
+          </property>
+         </item>
+         <item row="0" column="3">
+          <property name="text">
+           <string>20выс (не расшифровывается)</string>
+          </property>
+         </item>
+         <item row="0" column="4">
+          <property name="text">
+           <string>1944</string>
+          </property>
+         </item>
+         <item row="0" column="5">
+          <property name="text">
+           <string>NULL</string>
+          </property>
+         </item>
+         <item row="0" column="6">
+          <property name="text">
+           <string>NULL</string>
+          </property>
+         </item>
+         <item row="1" column="0">
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="exhibitTableEditLayout">
+         <item>
+          <spacer name="verticalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Preferred</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="editExhibitButton">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QWidget {
+	background-color: rgb(250, 234, 153);
+	border: 1px solid rgb(250, 201, 131);
+	border-radius: 10px;
+	text-align: center;
+}
+
+QAbstractButton {
+	
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}
+QPushButton:hover:!pressed {
+  border: 2px solid rga(250, 201, 131);
+}
+
+
+
+QPushButton:!enabled {
+	
+	background: rgba(160, 160, 160, 100);
+	font: 87 8pt &quot;Arial Black&quot;;
+	border: 1px solid rgb(150, 150, 150);
+	border-radius: 10px;
+	color: rgba(82, 30, 1, 100);
+}</string>
+           </property>
+           <property name="text">
+            <string>Редактировать</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="findExhibitButton">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QWidget {
+	background-color: rgb(250, 234, 153);
+	border: 1px solid rgb(250, 201, 131);
+	border-radius: 10px;
+	text-align: center;
+}
+
+QAbstractButton {
+	
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}
+QPushButton:hover:!pressed {
+  border: 2px solid rgb(250, 201, 131);
+}</string>
+           </property>
+           <property name="text">
+            <string>Поиск</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="sortExhibitTypeLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}</string>
+           </property>
+           <property name="text">
+            <string>Параметры сортировки:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxExhibitName">
+           <property name="styleSheet">
+            <string notr="true">
+
+padding-left: 5px;
+font: 8pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Название</string>
+           </property>
+           <property name="tristate">
+            <bool>true</bool>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">sortTypeExhibitButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxExhibitType">
+           <property name="styleSheet">
+            <string notr="true">
+padding-left: 5px;
+font: 8pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Вид</string>
+           </property>
+           <property name="tristate">
+            <bool>false</bool>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">sortTypeExhibitButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxArea">
+           <property name="styleSheet">
+            <string notr="true">
+padding-left: 5px;
+font: 8pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Зал</string>
+           </property>
+           <property name="tristate">
+            <bool>false</bool>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">sortTypeExhibitButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxSize">
+           <property name="styleSheet">
+            <string notr="true">
+padding-left: 5px;
+font: 8pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Размер</string>
+           </property>
+           <property name="tristate">
+            <bool>false</bool>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">sortTypeExhibitButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxCreationAge">
+           <property name="styleSheet">
+            <string notr="true">
+padding-left: 5px;
+font: 8pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Год создания</string>
+           </property>
+           <property name="tristate">
+            <bool>false</bool>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">sortTypeExhibitButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="sortExhibitOrderLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}</string>
+           </property>
+           <property name="text">
+            <string>Порядок сортировки:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="exRadioButtonAscending">
+           <property name="styleSheet">
+            <string notr="true">
+padding-left: 5px;
+font: 8pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>По возрастанию</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="exRadioButtonDescending">
+           <property name="styleSheet">
+            <string notr="true">
+padding-left: 5px;
+font: 8pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>По убыванию</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="sortExhibitButton">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QWidget {
+	background-color: rgb(250, 234, 153);
+	border: 1px solid rgb(250, 201, 131);
+	border-radius: 10px;
+	text-align: center;
+}
+
+QAbstractButton {
+	
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}
+QPushButton:hover:!pressed {
+  border: 2px solid rgb(250, 201, 131);
+}</string>
+           </property>
+           <property name="text">
+            <string>Сортировать</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>979</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="profileMenu">
+    <property name="title">
+     <string>Профиль</string>
+    </property>
+    <addaction name="viewProfileInfoAction"/>
+    <addaction name="quitSessionAction"/>
+   </widget>
+   <widget class="QMenu" name="employeeMenu">
+    <property name="title">
+     <string>Сотрудники</string>
+    </property>
+    <addaction name="selectEmployeeTableAction_"/>
+    <addaction name="separator"/>
+    <addaction name="addEmployeeAction"/>
+    <addaction name="removeEmployeeAction"/>
+    <addaction name="findEmployeeAction"/>
+   </widget>
+   <widget class="QMenu" name="exhibitMenu">
+    <property name="title">
+     <string>Эксопнаты</string>
+    </property>
+    <addaction name="selectExhibitAction"/>
+    <addaction name="separator"/>
+    <addaction name="findExhibitAction"/>
+   </widget>
+   <addaction name="profileMenu"/>
+   <addaction name="employeeMenu"/>
+   <addaction name="exhibitMenu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="viewProfileInfoAction">
+   <property name="text">
+    <string>Показать</string>
+   </property>
+  </action>
+  <action name="quitSessionAction">
+   <property name="text">
+    <string>Выход</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="selectEmployeeTableAction_">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Выбрать</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="addEmployeeAction">
+   <property name="text">
+    <string>Добавить</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="removeEmployeeAction">
+   <property name="text">
+    <string>Уволить</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+D</string>
+   </property>
+  </action>
+  <action name="findEmployeeAction">
+   <property name="text">
+    <string>Поиск...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="selectExhibitAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Выбрать</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
+   </property>
+  </action>
+  <action name="findExhibitAction">
+   <property name="text">
+    <string>Поиск...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="sortTypeEmployeeButtonGroup"/>
+  <buttongroup name="sortOrderEmployeeButtonGroup"/>
+  <buttongroup name="sortTypeExhibitButtonGroup"/>
+ </buttongroups>
+</ui>

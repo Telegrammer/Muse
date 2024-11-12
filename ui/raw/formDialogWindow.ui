@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>formDialogWindow</class>
+ <widget class="QWidget" name="formDialogWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>816</width>
+    <height>622</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMenuBar {
+background-color: rgb(250, 234, 153);
+font: 87 10pt &quot;Arial Black&quot;;
+padding-left: 3px;
+	color: rgb(82, 30, 1);
+}
+
+QMenuBar::item {
+spacing: 3px; /* spacing between menu bar items */
+padding: 1px 4px;
+background: transparent;
+border-radius: 4px;
+background-color: rgb(250, 234, 153);
+}
+
+QMenuBar::item:selected { /* when selected using mouse or keyboard */
+background: #fac983;
+}
+
+QMenu {
+background-color: rgb(149, 166, 174); 
+	font: 75 8pt &quot;Arial Black&quot;;
+}
+
+QMenu::item {
+background-color: transparent;
+}
+
+QMenu::item:selected {
+background-color: #fac983; /* rot */
+}
+QWidget{background-color: rgb(255, 253, 223);}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <spacer name="verticalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="MuseLabel" name="templateLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}</string>
+     </property>
+     <property name="text">
+      <string>Образец:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="MuseLineEdit" name="templateLineEdit">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>31</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>31</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+	
+	font: 8pt &quot;Arial&quot;;
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: rgb(250, 235, 180);
+	border-radius: 10px;
+}
+
+QLineEdit:focus {
+  border: 2px solid rgb(250, 201, 131);
+}</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Preferred</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QPushButton" name="templateButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>31</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>31</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QWidget {
+	background-color: rgb(250, 234, 153);
+	border: 1px solid rgb(250, 201, 131);
+	border-radius: 10px;
+	text-align: center;
+}
+
+QAbstractButton {
+	
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}
+QPushButton:hover:!pressed {
+  border: 2px solid rgb(250, 201, 131);
+}</string>
+     </property>
+     <property name="text">
+      <string>Образец</string>
+     </property>
+     <property name="shortcut">
+      <string>Ctrl+S</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MuseLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">muselineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MuseLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">muselabel.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

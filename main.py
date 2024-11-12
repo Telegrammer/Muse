@@ -2,7 +2,7 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-from LoginScreen import LoginScreen
+from src.LoginScreen import LoginScreen
 
 
 def window():

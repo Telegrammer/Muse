@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1059</width>
+    <height>664</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMenuBar {
+background-color: rgb(250, 234, 153);
+font: 87 10pt &quot;Arial Black&quot;;
+padding-left: 3px;
+	color: rgb(82, 30, 1);
+}
+
+QMenuBar::item {
+spacing: 3px; /* spacing between menu bar items */
+padding: 1px 4px;
+background: transparent;
+border-radius: 4px;
+background-color: rgb(250, 234, 153);
+}
+
+QMenuBar::item:selected { /* when selected using mouse or keyboard */
+background: #fac983;
+}
+
+QMenu {
+background-color: rgb(149, 166, 174); 
+	font: 75 8pt &quot;Arial Black&quot;;
+}
+
+QMenu::item {
+background-color: transparent;
+}
+
+QMenu::item:selected {
+background-color: #fac983; /* rot */
+}
+QWidget{background-color: rgb(255, 253, 223);}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1042</width>
+        <height>630</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label_32">
+         <property name="text">
+          <string>                                                                                            2024                                                                                                                                                     2025</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_31">
+         <property name="text">
+          <string>                Янв       Фев       Март       Апр     Май      Июнь      Июль   Авг       Сен       Окт      Нояб     Дек       Янв       Фев       Март       Апр     Май      Июнь      Июль   Авг       Сен       Окт      Нояб     Дек</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="gantaDiagramDataWidget" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>1024</width>
+           <height>574</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+         <widget class="Line" name="line">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>0</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_2">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>0</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_3">
+          <property name="geometry">
+           <rect>
+            <x>130</x>
+            <y>0</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_4">
+          <property name="geometry">
+           <rect>
+            <x>250</x>
+            <y>-10</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_5">
+          <property name="geometry">
+           <rect>
+            <x>210</x>
+            <y>-10</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_6">
+          <property name="geometry">
+           <rect>
+            <x>170</x>
+            <y>-10</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label">
+          <property name="geometry">
+           <rect>
+            <x>60</x>
+            <y>100</y>
+            <width>131</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 0, 4);
+
+border: 1px solid rgb(255, 0, 4);
+border-radius: 10px;
+</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_2">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>130</y>
+            <width>141</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(200, 100, 4);
+
+border: 1px solid rgb(200, 100, 4);
+border-radius: 10px;
+</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="Line" name="line_7">
+          <property name="geometry">
+           <rect>
+            <x>370</x>
+            <y>-10</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_8">
+          <property name="geometry">
+           <rect>
+            <x>490</x>
+            <y>0</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_9">
+          <property name="geometry">
+           <rect>
+            <x>450</x>
+            <y>0</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_10">
+          <property name="geometry">
+           <rect>
+            <x>410</x>
+            <y>0</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_11">
+          <property name="geometry">
+           <rect>
+            <x>330</x>
+            <y>-10</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_12">
+          <property name="geometry">
+           <rect>
+            <x>290</x>
+            <y>-10</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_3">
+          <property name="geometry">
+           <rect>
+            <x>240</x>
+            <y>160</y>
+            <width>181</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(20, 20, 200);
+
+border: 1px solid rgb(20, 20, 200);
+border-radius: 10px;
+</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_4">
+          <property name="geometry">
+           <rect>
+            <x>200</x>
+            <y>100</y>
+            <width>101</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>ВЫСТАВКА 1</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_5">
+          <property name="geometry">
+           <rect>
+            <x>240</x>
+            <y>130</y>
+            <width>101</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>ВЫСТАВКА 2</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_6">
+          <property name="geometry">
+           <rect>
+            <x>430</x>
+            <y>160</y>
+            <width>101</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>ВЫСТАВКА 3</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_7">
+          <property name="geometry">
+           <rect>
+            <x>140</x>
+            <y>200</y>
+            <width>41</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(20, 200, 200);
+
+border: 1px solid rgb(20, 200, 200);
+border-radius: 10px;
+</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_8">
+          <property name="geometry">
+           <rect>
+            <x>190</x>
+            <y>200</y>
+            <width>101</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>ВЫСТАВКА 3</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_9">
+          <property name="geometry">
+           <rect>
+            <x>60</x>
+            <y>240</y>
+            <width>441</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(20, 255, 0);
+
+border: 1px solid rgb(20, 255, 0);
+border-radius: 10px;
+</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_10">
+          <property name="geometry">
+           <rect>
+            <x>510</x>
+            <y>240</y>
+            <width>101</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>ВЫСТАВКА 4</string>
+          </property>
+         </widget>
+         <widget class="Line" name="line_37">
+          <property name="geometry">
+           <rect>
+            <x>610</x>
+            <y>0</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_38">
+          <property name="geometry">
+           <rect>
+            <x>730</x>
+            <y>-10</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_39">
+          <property name="geometry">
+           <rect>
+            <x>850</x>
+            <y>-10</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_40">
+          <property name="geometry">
+           <rect>
+            <x>690</x>
+            <y>-10</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_41">
+          <property name="geometry">
+           <rect>
+            <x>770</x>
+            <y>-10</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_42">
+          <property name="geometry">
+           <rect>
+            <x>890</x>
+            <y>0</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_43">
+          <property name="geometry">
+           <rect>
+            <x>650</x>
+            <y>-10</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_44">
+          <property name="geometry">
+           <rect>
+            <x>570</x>
+            <y>0</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_45">
+          <property name="geometry">
+           <rect>
+            <x>930</x>
+            <y>0</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_46">
+          <property name="geometry">
+           <rect>
+            <x>540</x>
+            <y>0</y>
+            <width>2</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>2</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 255, 255);
+border-color: rgb(125, 116, 255);
+color: rgb(255, 255, 255);
+
+border: 2px solid;</string>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_47">
+          <property name="geometry">
+           <rect>
+            <x>970</x>
+            <y>0</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_48">
+          <property name="geometry">
+           <rect>
+            <x>810</x>
+            <y>-10</y>
+            <width>21</width>
+            <height>621</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <zorder>line_41</zorder>
+         <zorder>line_44</zorder>
+         <zorder>line_40</zorder>
+         <zorder>line_45</zorder>
+         <zorder>line_48</zorder>
+         <zorder>line_43</zorder>
+         <zorder>line_46</zorder>
+         <zorder>line_39</zorder>
+         <zorder>line_38</zorder>
+         <zorder>line_47</zorder>
+         <zorder>line_37</zorder>
+         <zorder>line_42</zorder>
+         <zorder>line</zorder>
+         <zorder>line_2</zorder>
+         <zorder>line_3</zorder>
+         <zorder>line_4</zorder>
+         <zorder>line_5</zorder>
+         <zorder>line_6</zorder>
+         <zorder>label</zorder>
+         <zorder>label_2</zorder>
+         <zorder>line_7</zorder>
+         <zorder>line_8</zorder>
+         <zorder>line_9</zorder>
+         <zorder>line_10</zorder>
+         <zorder>line_11</zorder>
+         <zorder>line_12</zorder>
+         <zorder>label_3</zorder>
+         <zorder>label_4</zorder>
+         <zorder>label_5</zorder>
+         <zorder>label_6</zorder>
+         <zorder>label_7</zorder>
+         <zorder>label_8</zorder>
+         <zorder>label_9</zorder>
+         <zorder>label_10</zorder>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
