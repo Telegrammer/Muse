@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1005</width>
-    <height>731</height>
+    <height>679</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -559,7 +559,6 @@ background-color: rgb(255, 0, 4);
      <string>Запросы</string>
     </property>
     <addaction name="openRequestsListAction"/>
-    <addaction name="closeRequestListAction"/>
    </widget>
    <addaction name="profileMenu"/>
    <addaction name="RequestsMenu"/>

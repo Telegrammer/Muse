@@ -10,6 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from src.SharedWidgets.CustomWidgets import MuseTableWidget
+
 
 class AdministratorMainWindowView(object):
     def setupUi(self, AdministratorMainWindow):
@@ -133,59 +135,16 @@ class AdministratorMainWindowView(object):
         self.adminEmployeeTable.setObjectName("adminEmployeeTable")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.adminEmployeeTable)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.employeeTable = QtWidgets.QTableWidget(self.adminEmployeeTable)
-        self.employeeTable.setStyleSheet("\n"
-                                         "QTableWidgetItem {\n"
-                                         "    font: 8pt \"Arial\";\n"
-                                         "}\n"
-                                         "\n"
-                                         "QWidget {background-color: rgb(255, 245, 183);}\n"
-                                         "\n"
-                                         "QAbstractItemView {\n"
-                                         "\n"
-                                         "    font: 8pt \"Arial Black\";\n"
-                                         "}\n"
-                                         "\n"
-                                         "QAbstractScrollArea {\n"
-                                         "    \n"
-                                         "    border-radius: 10px;\n"
-                                         "}\n"
-                                         "\n"
-                                         " QScrollBar::handle:vertical {\n"
-                                         "    background: #fac983\n"
-                                         " }\n"
-                                         "\n"
-                                         "QScrollBar::handle:horizontal {\n"
-                                         "    background: #fac983;\n"
-                                         " }\n"
-                                         "")
-        self.employeeTable.setColumnCount(4)
-        self.employeeTable.setObjectName("employeeTable")
-        self.employeeTable.setRowCount(3)
-        item = QtWidgets.QTableWidgetItem()
-        self.employeeTable.setVerticalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.employeeTable.setVerticalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.employeeTable.setVerticalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.employeeTable.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.employeeTable.setHorizontalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.employeeTable.setHorizontalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.employeeTable.setHorizontalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.employeeTable.setItem(0, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.employeeTable.setItem(0, 1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.employeeTable.setItem(0, 2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.employeeTable.setItem(0, 3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.employeeTable.setItem(1, 0, item)
+        self.employeeTable = MuseTableWidget({"Фио": MuseTableWidget.ItemType.varchar,
+                                              "Должность": MuseTableWidget.ItemType.enumType,
+                                              "Номер телефона": MuseTableWidget.ItemType.varchar,
+                                              "Дата рождения": MuseTableWidget.ItemType.dateType,
+                                              }, parent=self.adminEmployeeTable)
+        self.employeeTable.set_attribute_values("Должность", ["Администратор", "Менеджер", "Куратор", "Экускурсовод"])
+        self.employeeTable.insertRow(self.employeeTable.rowCount())
+        self.employeeTable.insertRow(self.employeeTable.rowCount())
+        self.employeeTable.insertRow(self.employeeTable.rowCount())
+
         self.employeeTable.horizontalHeader().setCascadingSectionResizes(False)
         self.employeeTable.horizontalHeader().setDefaultSectionSize(115)
         self.employeeTable.horizontalHeader().setStretchLastSection(True)
@@ -730,30 +689,8 @@ class AdministratorMainWindowView(object):
         AdministratorMainWindow.setWindowTitle(_translate("AdministratorMainWindow", "Главное окно (Администратор)"))
         self.employeeLabel.setText(_translate("AdministratorMainWindow", "Сотрудники"))
         self.employeeTable.setSortingEnabled(True)
-        item = self.employeeTable.verticalHeaderItem(0)
-        item.setText(_translate("AdministratorMainWindow", "1"))
-        item = self.employeeTable.verticalHeaderItem(1)
-        item.setText(_translate("AdministratorMainWindow", "2"))
-        item = self.employeeTable.verticalHeaderItem(2)
-        item.setText(_translate("AdministratorMainWindow", "3"))
-        item = self.employeeTable.horizontalHeaderItem(0)
-        item.setText(_translate("AdministratorMainWindow", "Фио"))
-        item = self.employeeTable.horizontalHeaderItem(1)
-        item.setText(_translate("AdministratorMainWindow", "Должность"))
-        item = self.employeeTable.horizontalHeaderItem(2)
-        item.setText(_translate("AdministratorMainWindow", "Номер телефона"))
-        item = self.employeeTable.horizontalHeaderItem(3)
-        item.setText(_translate("AdministratorMainWindow", "Дата рождения"))
         __sortingEnabled = self.employeeTable.isSortingEnabled()
         self.employeeTable.setSortingEnabled(True)
-        item = self.employeeTable.item(0, 0)
-        item.setText(_translate("AdministratorMainWindow", "Иванов И. И."))
-        item = self.employeeTable.item(0, 1)
-        item.setText(_translate("AdministratorMainWindow", "Куратор (выпадающий список)"))
-        item = self.employeeTable.item(0, 2)
-        item.setText(_translate("AdministratorMainWindow", "88005553535 (проверка формата)"))
-        item = self.employeeTable.item(0, 3)
-        item.setText(_translate("AdministratorMainWindow", "20-21-2024 (проверка формата)"))
         self.employeeTable.setSortingEnabled(__sortingEnabled)
         self.editEmployeeButton.setText(_translate("AdministratorMainWindow", "Редактировать"))
         self.addEmployeeButton.setText(_translate("AdministratorMainWindow", "Добавить сотрудника"))

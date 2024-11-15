@@ -1,8 +1,9 @@
-from PyQt5.QtCore import QSize
-from PyQt5.QtWidgets import QMainWindow, QAction, QWidget, QVBoxLayout
+from typing import Callable
 
-from src.CustomWidgets import *
-from src.Emitters import VoidEmitter
+from PyQt5.QtWidgets import QMainWindow, QAction, QWidget, QTableWidget, QDialog, QTableWidgetItem
+
+from src.DialogFormFactory import DialogFormFactory
+from src.Emitters import VoidEmitter, TupleEmitter
 from .AdminMainWindowView import AdministratorMainWindowView
 
 __all__ = ["AdminMainWindow"]
@@ -47,21 +48,21 @@ class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
         )
 
         self.editExhibitButton.clicked.connect(
-            lambda: self.edit_row(
-                [(self.exhibitTable.horizontalHeaderItem(i).text(),
-                  self.exhibitTable.item(self.exhibitTable.currentRow(), i).text())
-                 for i in range(self.exhibitTable.columnCount())
-                 ], "Экспонат")
+            lambda: self.form_dialog("Изменить данные об экспонате", "Изменить", "Экспонат",
+                                     operation=self.edit_exhibit, table=self.exhibitTable)
         )
         self.editEmployeeButton.clicked.connect(
-            lambda: self.edit_row(
-                [(self.employeeTable.horizontalHeaderItem(i).text(),
-                  self.employeeTable.item(self.employeeTable.currentRow(), i).text())
-                 for i in range(self.employeeTable.columnCount())
-                 ], "данные сотрудника")
+            lambda: self.form_dialog("Изменить данные о сотруднике", "Изменить", "Сотрудник",
+                                     operation=self.edit_employee, table=self.employeeTable)
         )
-        self.addEmployeeButton.clicked.connect(self.add_employee)
-        self.addEmployeeAction.triggered.connect(self.add_employee)
+        self.addEmployeeButton.clicked.connect(
+            lambda: self.form_dialog("Добавить сотрудника", "Добавить", "Сотрудник",
+                                     operation=self.add_employee, table=self.employeeTable)
+        )
+        self.addEmployeeAction.triggered.connect(
+            lambda: self.form_dialog("Добавить сотрудника", "Добавить", "Сотрудник",
+                                     operation=self.add_employee, table=self.employeeTable)
+        )
 
         self.__quit_session_signal = parent_signal
         self.quitSessionAction.triggered.connect(
@@ -70,11 +71,11 @@ class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
 
     @staticmethod
     def __set_visible_table(table: QWidget, action: QAction):
-        table_visible: bool = table.isHidden()
+        table_visible: bool = table.isVisible()
         action_status: bool = action.isChecked()
         if table_visible == action_status:
             action.setChecked(not action_status)
-        table.setHidden(not table_visible)
+        table.setHidden(table_visible)
 
     @staticmethod
     def __focus_change(focused_widgets: list[QWidget], unfocused_widgets: list[QWidget]):
@@ -84,33 +85,40 @@ class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
             widget.setEnabled(False)
 
     @staticmethod
-    def edit_row(row_data: list[tuple[str]], table_name: str):
-        edit_form = MuseDialog(QSize(800, 600), "editExhibitForm")
-        vertical_layout = QVBoxLayout(edit_form)
-        edit_form.setWindowTitle(f"Изменить {table_name}")
-        for header, data in row_data:
-            vertical_layout.addWidget(MuseLabel(header, f"label {header}", edit_form))
-            line_edit = MuseLineEdit(f"lineEdit {header}", edit_form)
-            line_edit.setText(data)
-            vertical_layout.addWidget(line_edit)
+    def __get_row_data(table_widget: QTableWidget) -> list[tuple[str]]:
+        selected_row: int = table_widget.currentRow()
+        column_count: int = table_widget.columnCount()
+        result: list[tuple[str]] = []
+        for i in range(column_count):
+            try:
+                result.append((table_widget.horizontalHeaderItem(i).text(),
+                               table_widget.item(selected_row, i).text())
+                              )
+            except AttributeError:
+                result.append((table_widget.horizontalHeaderItem(i).text(),
+                               ""
+                               ))
+        return result
 
-        vertical_layout.addWidget(MuseButton("Изменить", f"confirmButton", edit_form))
+    def form_dialog(self, window_title: str, button_label: str, table_name: str,
+                    operation: Callable, table: QTableWidget):
+        dialog_factory: DialogFormFactory = DialogFormFactory(window_title, button_label, table_name,
+                                                              self.__get_row_data(table))
+        send_data_signal = TupleEmitter(self)
+        send_data_signal.signal.connect(operation)
+        dialog_form: QDialog = dialog_factory(send_data_signal)
+        dialog_form.show()
+        dialog_form.exec_()
 
-        edit_form.setModal(True)
-        edit_form.show()
-        edit_form.exec_()
+    def edit_exhibit(self, dialog_output: tuple[str]):
+        for i in range(self.exhibitTable.columnCount()):
+            self.exhibitTable.setItem(self.exhibitTable.currentRow(), i, QTableWidgetItem(dialog_output[i]))
 
-    def add_employee(self):
-        edit_form = MuseDialog(QSize(800, 600), "editExhibitForm")
-        vertical_layout = QVBoxLayout(edit_form)
-        headers = [self.employeeTable.horizontalHeaderItem(i).text() for i in range(self.employeeTable.columnCount())]
-        edit_form.setWindowTitle(f"Добавить сотрудника")
-        for header in headers:
-            vertical_layout.addWidget(MuseLabel(header, f"label {header}", edit_form))
-            vertical_layout.addWidget(MuseLineEdit(f"lineEdit {header}", edit_form))
+    def edit_employee(self, dialog_output: tuple[str]):
+        for i in range(self.employeeTable.columnCount()):
+            self.employeeTable.setItem(self.employeeTable.currentRow(), i, QTableWidgetItem(dialog_output[i]))
 
-        vertical_layout.addWidget(MuseButton("Добавить", f"confirmButton", edit_form))
-
-        edit_form.setModal(True)
-        edit_form.show()
-        edit_form.exec_()
+    def add_employee(self, dialog_output: tuple[str]):
+        self.employeeTable.insertRow(self.employeeTable.rowCount())
+        for i in range(self.employeeTable.columnCount()):
+            self.employeeTable.setItem(self.employeeTable.rowCount() - 1, i, QTableWidgetItem(dialog_output[i]))

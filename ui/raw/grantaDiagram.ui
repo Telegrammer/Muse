@@ -59,24 +59,17 @@ QWidget{background-color: rgb(255, 253, 223);}</string>
         <x>0</x>
         <y>0</y>
         <width>1042</width>
-        <height>630</height>
+        <height>627</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QLabel" name="label_32">
          <property name="text">
-          <string>                                                                                            2024                                                                                                                                                     2025</string>
+          <string>Популярность экспонатов (по количеству появлений в выставках)</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_31">
-         <property name="text">
-          <string>                Янв       Фев       Март       Апр     Май      Июнь      Июль   Авг       Сен       Окт      Нояб     Дек       Янв       Фев       Март       Апр     Май      Июнь      Июль   Авг       Сен       Окт      Нояб     Дек</string>
          </property>
         </widget>
        </item>
@@ -198,7 +191,7 @@ border-radius: 10px;
          <widget class="QLabel" name="label_2">
           <property name="geometry">
            <rect>
-            <x>80</x>
+            <x>60</x>
             <y>130</y>
             <width>141</width>
             <height>20</height>
@@ -296,7 +289,7 @@ border-radius: 10px;
          <widget class="QLabel" name="label_3">
           <property name="geometry">
            <rect>
-            <x>240</x>
+            <x>60</x>
             <y>160</y>
             <width>181</width>
             <height>20</height>
@@ -323,40 +316,40 @@ border-radius: 10px;
            </rect>
           </property>
           <property name="text">
-           <string>ВЫСТАВКА 1</string>
+           <string>Скульптура апполон</string>
           </property>
          </widget>
          <widget class="QLabel" name="label_5">
           <property name="geometry">
            <rect>
-            <x>240</x>
+            <x>210</x>
             <y>130</y>
             <width>101</width>
             <height>16</height>
            </rect>
           </property>
           <property name="text">
-           <string>ВЫСТАВКА 2</string>
+           <string>Тотем тест</string>
           </property>
          </widget>
          <widget class="QLabel" name="label_6">
           <property name="geometry">
            <rect>
-            <x>430</x>
+            <x>250</x>
             <y>160</y>
             <width>101</width>
             <height>16</height>
            </rect>
           </property>
           <property name="text">
-           <string>ВЫСТАВКА 3</string>
+           <string>Тарелка из гжели</string>
           </property>
          </widget>
          <widget class="QLabel" name="label_7">
           <property name="geometry">
            <rect>
-            <x>140</x>
-            <y>200</y>
+            <x>60</x>
+            <y>70</y>
             <width>41</width>
             <height>20</height>
            </rect>
@@ -375,21 +368,21 @@ border-radius: 10px;
          <widget class="QLabel" name="label_8">
           <property name="geometry">
            <rect>
-            <x>190</x>
-            <y>200</y>
+            <x>510</x>
+            <y>190</y>
             <width>101</width>
             <height>16</height>
            </rect>
           </property>
           <property name="text">
-           <string>ВЫСТАВКА 3</string>
+           <string>Маска &quot;Комедия&quot;</string>
           </property>
          </widget>
          <widget class="QLabel" name="label_9">
           <property name="geometry">
            <rect>
             <x>60</x>
-            <y>240</y>
+            <y>190</y>
             <width>441</width>
             <height>20</height>
            </rect>
@@ -403,19 +396,6 @@ border-radius: 10px;
           </property>
           <property name="text">
            <string/>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_10">
-          <property name="geometry">
-           <rect>
-            <x>510</x>
-            <y>240</y>
-            <width>101</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>ВЫСТАВКА 4</string>
           </property>
          </widget>
          <widget class="Line" name="line_37">
@@ -591,6 +571,19 @@ border: 2px solid;</string>
           </property>
           <property name="orientation">
            <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_10">
+          <property name="geometry">
+           <rect>
+            <x>110</x>
+            <y>70</y>
+            <width>101</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Статуэтка лебедь</string>
           </property>
          </widget>
          <zorder>line_41</zorder>
