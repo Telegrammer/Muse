@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>785</width>
-    <height>532</height>
+    <width>830</width>
+    <height>788</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -70,8 +70,8 @@ QAbstractScrollArea {
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>750</width>
-         <height>592</height>
+         <width>812</width>
+         <height>729</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -132,6 +132,12 @@ QAbstractScrollArea {
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="minimumSize">
+             <size>
+              <width>40</width>
+              <height>40</height>
+             </size>
+            </property>
             <property name="styleSheet">
              <string notr="true">
 
@@ -168,7 +174,7 @@ QPushButton:pressed {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>components/inactive drop button.png</normaloff>components/inactive drop button.png</iconset>
+              <normaloff>../components/inactive drop button.png</normaloff>../components/inactive drop button.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -256,7 +262,7 @@ QScrollBar::handle:horizontal {
 </string>
                </property>
                <property name="sortingEnabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="columnCount">
                 <number>5</number>
@@ -620,6 +626,12 @@ QPushButton:hover:!pressed {
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="minimumSize">
+             <size>
+              <width>40</width>
+              <height>40</height>
+             </size>
+            </property>
             <property name="styleSheet">
              <string notr="true">
 
@@ -656,7 +668,7 @@ QPushButton:pressed {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>components/inactive drop button.png</normaloff>components/inactive drop button.png</iconset>
+              <normaloff>../components/inactive drop button.png</normaloff>../components/inactive drop button.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -744,7 +756,7 @@ QScrollBar::handle:horizontal {
 </string>
                </property>
                <property name="sortingEnabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="columnCount">
                 <number>4</number>
@@ -1021,7 +1033,7 @@ QPushButton:hover:!pressed {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>785</width>
+     <width>830</width>
      <height>21</height>
     </rect>
    </property>
@@ -1050,6 +1062,7 @@ QPushButton:hover:!pressed {
     <addaction name="separator"/>
     <addaction name="addExcursionAction"/>
     <addaction name="removeExcursionAction"/>
+    <addaction name="findExcursionAction"/>
    </widget>
    <addaction name="profileMenu"/>
    <addaction name="exhibitionMenu"/>
@@ -1081,6 +1094,9 @@ QPushButton:hover:!pressed {
    <property name="text">
     <string>Выход</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
   </action>
   <action name="selectExhibitionTableAction">
    <property name="checkable">
@@ -1100,13 +1116,16 @@ QPushButton:hover:!pressed {
    <property name="text">
     <string>Добавить</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="deleteExhibitionTableAction">
    <property name="text">
     <string>Удалить</string>
    </property>
    <property name="shortcut">
-    <string>Del</string>
+    <string>Alt+D</string>
    </property>
   </action>
   <action name="findExhibitionTableAction">
@@ -1144,7 +1163,15 @@ QPushButton:hover:!pressed {
     <string>Удалить</string>
    </property>
    <property name="shortcut">
-    <string>Del</string>
+    <string>Alt+D</string>
+   </property>
+  </action>
+  <action name="findExcursionAction">
+   <property name="text">
+    <string>Поиск</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
    </property>
   </action>
  </widget>

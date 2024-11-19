@@ -10,7 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from src.SharedWidgets.CustomWidgets import MuseTableWidget
+from src.SharedWidgets.MuseTableWidget import MuseTableWidget
 
 
 class AdministratorMainWindowView(object):
@@ -141,9 +141,6 @@ class AdministratorMainWindowView(object):
                                               "Дата рождения": MuseTableWidget.ItemType.dateType,
                                               }, parent=self.adminEmployeeTable)
         self.employeeTable.set_attribute_values("Должность", ["Администратор", "Менеджер", "Куратор", "Экускурсовод"])
-        self.employeeTable.insertRow(self.employeeTable.rowCount())
-        self.employeeTable.insertRow(self.employeeTable.rowCount())
-        self.employeeTable.insertRow(self.employeeTable.rowCount())
 
         self.employeeTable.horizontalHeader().setCascadingSectionResizes(False)
         self.employeeTable.horizontalHeader().setDefaultSectionSize(115)
@@ -401,77 +398,21 @@ class AdministratorMainWindowView(object):
         self.adminExhibitTable.setObjectName("adminExhibitTable")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.adminExhibitTable)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.exhibitTable = QtWidgets.QTableWidget(self.adminExhibitTable)
-        self.exhibitTable.setEnabled(True)
-        self.exhibitTable.setStyleSheet("\n"
-                                        "QTableWidgetItem {\n"
-                                        "    font: 8pt \"Arial\";\n"
-                                        "}\n"
-                                        "\n"
-                                        "QWidget {background-color: rgb(255, 245, 183);}\n"
-                                        "\n"
-                                        "QAbstractItemView {\n"
-                                        "\n"
-                                        "    font: 8pt \"Arial Black\";\n"
-                                        "}\n"
-                                        "\n"
-                                        "QAbstractScrollArea {\n"
-                                        "    \n"
-                                        "    border-radius: 10px;\n"
-                                        "}\n"
-                                        "\n"
-                                        " QScrollBar::handle:vertical {\n"
-                                        "    background: #fac983\n"
-                                        " }\n"
-                                        "\n"
-                                        "QScrollBar::handle:horizontal {\n"
-                                        "    background: #fac983;\n"
-                                        " }\n"
-                                        "")
-        self.exhibitTable.setColumnCount(7)
-        self.exhibitTable.setObjectName("exhibitTable")
-        self.exhibitTable.setRowCount(3)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setVerticalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setVerticalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setVerticalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setHorizontalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setHorizontalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setHorizontalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setHorizontalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setHorizontalHeaderItem(5, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setHorizontalHeaderItem(6, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setItem(0, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setItem(0, 1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setItem(0, 2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setItem(0, 3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setItem(0, 4, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setItem(0, 5, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setItem(0, 6, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitTable.setItem(1, 0, item)
-        self.exhibitTable.horizontalHeader().setCascadingSectionResizes(False)
-        self.exhibitTable.horizontalHeader().setDefaultSectionSize(115)
+        self.exhibitTable = MuseTableWidget({"Наименование": MuseTableWidget.ItemType.varchar,
+                                             "Вид": MuseTableWidget.ItemType.enumType,
+                                             "Зал": MuseTableWidget.ItemType.enumType,
+                                             "Размер": MuseTableWidget.ItemType.varchar,
+                                             "Год создания": MuseTableWidget.ItemType.varchar,
+                                             "Описание": MuseTableWidget.ItemType.varchar,
+                                             "Происхождение": MuseTableWidget.ItemType.varchar}, parent=self.adminExhibitTable)
+        self.exhibitTable.insertRow(self.exhibitTable.rowCount())
+        self.exhibitTable.insertRow(self.exhibitTable.rowCount())
+        self.exhibitTable.insertRow(self.exhibitTable.rowCount())
         self.exhibitTable.horizontalHeader().setStretchLastSection(True)
-        self.exhibitTable.verticalHeader().setSortIndicatorShown(False)
-        self.exhibitTable.verticalHeader().setStretchLastSection(False)
+
+        self.exhibitTable.set_attribute_values("Вид",
+                                               ["Манипулятор", "Робот", "Самолет", "Статуэтка", "Тарелка", "Телефон"])
+        self.exhibitTable.set_attribute_values("Зал", ["1", "2", "3", "4", "5"])
         self.horizontalLayout_2.addWidget(self.exhibitTable)
         self.exhibitTableEditLayout = QtWidgets.QVBoxLayout()
         self.exhibitTableEditLayout.setObjectName("exhibitTableEditLayout")
@@ -658,12 +599,14 @@ class AdministratorMainWindowView(object):
         self.removeEmployeeAction = QtWidgets.QAction(AdministratorMainWindow)
         self.removeEmployeeAction.setObjectName("removeEmployeeAction")
         self.findEmployeeAction = QtWidgets.QAction(AdministratorMainWindow)
+        self.findEmployeeAction.setEnabled(False)
         self.findEmployeeAction.setObjectName("findEmployeeAction")
         self.selectExhibitAction = QtWidgets.QAction(AdministratorMainWindow)
         self.selectExhibitAction.setCheckable(True)
         self.selectExhibitAction.setChecked(True)
         self.selectExhibitAction.setObjectName("selectExhibitAction")
         self.findExhibitAction = QtWidgets.QAction(AdministratorMainWindow)
+        self.findExhibitAction.setEnabled(False)
         self.findExhibitAction.setObjectName("findExhibitAction")
         self.profileMenu.addAction(self.viewProfileInfoAction)
         self.profileMenu.addAction(self.quitSessionAction)
@@ -705,43 +648,6 @@ class AdministratorMainWindowView(object):
         self.sortEmployeeButton.setText(_translate("AdministratorMainWindow", "Сортировать"))
         self.exhibitLabel.setText(_translate("AdministratorMainWindow", "Экспонаты"))
         self.exhibitTable.setSortingEnabled(True)
-        item = self.exhibitTable.verticalHeaderItem(0)
-        item.setText(_translate("AdministratorMainWindow", "1"))
-        item = self.exhibitTable.verticalHeaderItem(1)
-        item.setText(_translate("AdministratorMainWindow", "2"))
-        item = self.exhibitTable.verticalHeaderItem(2)
-        item.setText(_translate("AdministratorMainWindow", "3"))
-        item = self.exhibitTable.horizontalHeaderItem(0)
-        item.setText(_translate("AdministratorMainWindow", "Название"))
-        item = self.exhibitTable.horizontalHeaderItem(1)
-        item.setText(_translate("AdministratorMainWindow", "Вид экспоната"))
-        item = self.exhibitTable.horizontalHeaderItem(2)
-        item.setText(_translate("AdministratorMainWindow", "Зал"))
-        item = self.exhibitTable.horizontalHeaderItem(3)
-        item.setText(_translate("AdministratorMainWindow", "Размер"))
-        item = self.exhibitTable.horizontalHeaderItem(4)
-        item.setText(_translate("AdministratorMainWindow", "Год создания"))
-        item = self.exhibitTable.horizontalHeaderItem(5)
-        item.setText(_translate("AdministratorMainWindow", "Описание"))
-        item = self.exhibitTable.horizontalHeaderItem(6)
-        item.setText(_translate("AdministratorMainWindow", "Происхождение"))
-        __sortingEnabled = self.exhibitTable.isSortingEnabled()
-        self.exhibitTable.setSortingEnabled(True)
-        item = self.exhibitTable.item(0, 0)
-        item.setText(_translate("AdministratorMainWindow", "Тотем тест"))
-        item = self.exhibitTable.item(0, 1)
-        item.setText(_translate("AdministratorMainWindow", "Тотем (должен быть выпадающий список)"))
-        item = self.exhibitTable.item(0, 2)
-        item.setText(_translate("AdministratorMainWindow", "Зал тест (выпадающий список)"))
-        item = self.exhibitTable.item(0, 3)
-        item.setText(_translate("AdministratorMainWindow", "20выс (не расшифровывается)"))
-        item = self.exhibitTable.item(0, 4)
-        item.setText(_translate("AdministratorMainWindow", "1944"))
-        item = self.exhibitTable.item(0, 5)
-        item.setText(_translate("AdministratorMainWindow", "NULL"))
-        item = self.exhibitTable.item(0, 6)
-        item.setText(_translate("AdministratorMainWindow", "NULL"))
-        self.exhibitTable.setSortingEnabled(__sortingEnabled)
         self.editExhibitButton.setText(_translate("AdministratorMainWindow", "Редактировать"))
         self.findExhibitButton.setText(_translate("AdministratorMainWindow", "Поиск"))
         self.sortExhibitTypeLabel.setText(_translate("AdministratorMainWindow", "Параметры сортировки:"))

@@ -1,4 +1,4 @@
 
 
 
-from .CustomWidgets import *
+from .MuseTableWidget import *

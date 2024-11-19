@@ -42,9 +42,6 @@ class MuseComboBox(QtWidgets.QComboBox, MuseComboBoxView, MuseDataSource):
     def closeEvent(self, *args, **kwargs):
         self.return_data_before_destroy()
 
-    def __del__(self):
-        self.return_data_before_destroy()
-
 
 if __name__ == "__main__":
     import sys

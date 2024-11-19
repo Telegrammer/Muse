@@ -10,11 +10,13 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from ..SharedWidgets.MuseTableWidget import MuseTableWidget
+
 
 class ManagerMainWindowView(object):
     def setupUi(self, ManagerMainWindow):
         ManagerMainWindow.setObjectName("ManagerMainWindow")
-        ManagerMainWindow.resize(892, 725)
+        ManagerMainWindow.resize(830, 788)
         ManagerMainWindow.setStyleSheet("QMenuBar {\n"
                                         "background-color: rgb(250, 234, 153);\n"
                                         "font: 87 10pt \"Arial Black\";\n"
@@ -64,7 +66,7 @@ class ManagerMainWindowView(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 874, 666))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 812, 729))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -98,6 +100,7 @@ class ManagerMainWindowView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.setVisibleExhibitionTableButton.sizePolicy().hasHeightForWidth())
         self.setVisibleExhibitionTableButton.setSizePolicy(sizePolicy)
+        self.setVisibleExhibitionTableButton.setMinimumSize(QtCore.QSize(40, 40))
         self.setVisibleExhibitionTableButton.setStyleSheet("\n"
                                                            "\n"
                                                            "QWidget {\n"
@@ -129,7 +132,7 @@ class ManagerMainWindowView(object):
                                                            "    }")
         self.setVisibleExhibitionTableButton.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("components/inactive drop button.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("./ui/components/inactive drop button.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setVisibleExhibitionTableButton.setIcon(icon)
         self.setVisibleExhibitionTableButton.setIconSize(QtCore.QSize(40, 40))
         self.setVisibleExhibitionTableButton.setObjectName("setVisibleExhibitionTableButton")
@@ -175,55 +178,12 @@ class ManagerMainWindowView(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.exhibitionTable = QtWidgets.QTableWidget(self.managerExhibitionTableWidget)
-        self.exhibitionTable.setStyleSheet("\n"
-                                           "QTableWidgetItem {\n"
-                                           "    font: 8pt \"Arial\";\n"
-                                           "}\n"
-                                           "\n"
-                                           "QWidget {background-color: rgb(255, 245, 183);}\n"
-                                           "\n"
-                                           "QAbstractItemView {\n"
-                                           "\n"
-                                           "    font: 8pt \"Arial Black\";\n"
-                                           "}\n"
-                                           "\n"
-                                           "QAbstractScrollArea {\n"
-                                           "    \n"
-                                           "    border-radius: 10px;\n"
-                                           "}\n"
-                                           "\n"
-                                           " QScrollBar::handle:vertical {\n"
-                                           "    background: #fac983\n"
-                                           " }\n"
-                                           "\n"
-                                           "QScrollBar::handle:horizontal {\n"
-                                           "    background: #fac983;\n"
-                                           " }\n"
-                                           "")
-        self.exhibitionTable.setColumnCount(5)
-        self.exhibitionTable.setObjectName("exhibitionTable")
-        self.exhibitionTable.setRowCount(5)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitionTable.setVerticalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitionTable.setVerticalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitionTable.setVerticalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitionTable.setVerticalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitionTable.setVerticalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitionTable.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitionTable.setHorizontalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitionTable.setHorizontalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitionTable.setHorizontalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.exhibitionTable.setHorizontalHeaderItem(4, item)
+        self.exhibitionTable = MuseTableWidget({"Название": MuseTableWidget.ItemType.varchar,
+                                                "Описание": MuseTableWidget.ItemType.varchar,
+                                                "Площадь": MuseTableWidget.ItemType.varchar,
+                                                "Дата начала": MuseTableWidget.ItemType.dateType,
+                                                "Дата окончания": MuseTableWidget.ItemType.dateType},
+                                               parent=self.managerExhibitionTableWidget)
         self.exhibitionTable.horizontalHeader().setCascadingSectionResizes(False)
         self.exhibitionTable.horizontalHeader().setDefaultSectionSize(115)
         self.exhibitionTable.horizontalHeader().setStretchLastSection(True)
@@ -381,6 +341,7 @@ class ManagerMainWindowView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.setVisibleExcursionTableButton.sizePolicy().hasHeightForWidth())
         self.setVisibleExcursionTableButton.setSizePolicy(sizePolicy)
+        self.setVisibleExcursionTableButton.setMinimumSize(QtCore.QSize(40, 40))
         self.setVisibleExcursionTableButton.setStyleSheet("\n"
                                                           "\n"
                                                           "QWidget {\n"
@@ -456,53 +417,13 @@ class ManagerMainWindowView(object):
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
-        self.excursionTable = QtWidgets.QTableWidget(self.managerExcursionTableWidget)
-        self.excursionTable.setStyleSheet("\n"
-                                          "QTableWidgetItem {\n"
-                                          "    font: 8pt \"Arial\";\n"
-                                          "}\n"
-                                          "\n"
-                                          "QWidget {background-color: rgb(255, 245, 183);}\n"
-                                          "\n"
-                                          "QAbstractItemView {\n"
-                                          "\n"
-                                          "    font: 8pt \"Arial Black\";\n"
-                                          "}\n"
-                                          "\n"
-                                          "QAbstractScrollArea {\n"
-                                          "    \n"
-                                          "    border-radius: 10px;\n"
-                                          "}\n"
-                                          "\n"
-                                          " QScrollBar::handle:vertical {\n"
-                                          "    background: #fac983\n"
-                                          " }\n"
-                                          "\n"
-                                          "QScrollBar::handle:horizontal {\n"
-                                          "    background: #fac983;\n"
-                                          " }\n"
-                                          "")
-        self.excursionTable.setColumnCount(4)
-        self.excursionTable.setObjectName("excursionTable")
-        self.excursionTable.setRowCount(5)
-        item = QtWidgets.QTableWidgetItem()
-        self.excursionTable.setVerticalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.excursionTable.setVerticalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.excursionTable.setVerticalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.excursionTable.setVerticalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.excursionTable.setVerticalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.excursionTable.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.excursionTable.setHorizontalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.excursionTable.setHorizontalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.excursionTable.setHorizontalHeaderItem(3, item)
+        self.excursionTable = MuseTableWidget({"Название": MuseTableWidget.ItemType.varchar,
+                                               "Назначенный экскуросвод": MuseTableWidget.ItemType.enumType,
+                                               "Описание": MuseTableWidget.ItemType.varchar,
+                                               "Стоимость": MuseTableWidget.ItemType.varchar},
+                                              parent=self.managerExcursionTableWidget
+                                              )
+        self.excursionTable.set_attribute_values("Назначенный экскуросвод", ["Иванов", "Смирнов", "Сидоров"])
         self.excursionTable.horizontalHeader().setCascadingSectionResizes(False)
         self.excursionTable.horizontalHeader().setDefaultSectionSize(115)
         self.excursionTable.horizontalHeader().setStretchLastSection(True)
@@ -614,7 +535,7 @@ class ManagerMainWindowView(object):
         self.verticalLayout_4.addWidget(self.scrollArea)
         ManagerMainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(ManagerMainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 892, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 830, 21))
         self.menubar.setObjectName("menubar")
         self.profileMenu = QtWidgets.QMenu(self.menubar)
         self.profileMenu.setObjectName("profileMenu")
@@ -637,19 +558,31 @@ class ManagerMainWindowView(object):
         self.quitSessionAction = QtWidgets.QAction(ManagerMainWindow)
         self.quitSessionAction.setObjectName("quitSessionAction")
         self.selectExhibitionTableAction = QtWidgets.QAction(ManagerMainWindow)
+        self.selectExhibitionTableAction.setCheckable(True)
+        self.selectExhibitionTableAction.setChecked(True)
         self.selectExhibitionTableAction.setObjectName("selectExhibitionTableAction")
         self.addExhibitionTableAction = QtWidgets.QAction(ManagerMainWindow)
+        self.addExhibitionTableAction.setEnabled(False)
         self.addExhibitionTableAction.setObjectName("addExhibitionTableAction")
         self.deleteExhibitionTableAction = QtWidgets.QAction(ManagerMainWindow)
+        self.deleteExhibitionTableAction.setEnabled(False)
         self.deleteExhibitionTableAction.setObjectName("deleteExhibitionTableAction")
         self.findExhibitionTableAction = QtWidgets.QAction(ManagerMainWindow)
+        self.findExhibitionTableAction.setEnabled(False)
         self.findExhibitionTableAction.setObjectName("findExhibitionTableAction")
         self.selectExcursionTableAction = QtWidgets.QAction(ManagerMainWindow)
+        self.selectExcursionTableAction.setCheckable(True)
+        self.selectExcursionTableAction.setChecked(True)
         self.selectExcursionTableAction.setObjectName("selectExcursionTableAction")
         self.addExcursionAction = QtWidgets.QAction(ManagerMainWindow)
+        self.addExcursionAction.setEnabled(False)
         self.addExcursionAction.setObjectName("addExcursionAction")
         self.removeExcursionAction = QtWidgets.QAction(ManagerMainWindow)
+        self.removeExcursionAction.setEnabled(False)
         self.removeExcursionAction.setObjectName("removeExcursionAction")
+        self.findExcursionAction = QtWidgets.QAction(ManagerMainWindow)
+        self.findExcursionAction.setEnabled(False)
+        self.findExcursionAction.setObjectName("findExcursionAction")
         self.profileMenu.addAction(self.viewProfileInfoAction)
         self.profileMenu.addAction(self.quitSessionAction)
         self.exhibitionMenu.addAction(self.selectExhibitionTableAction)
@@ -661,6 +594,7 @@ class ManagerMainWindowView(object):
         self.excursionMenu.addSeparator()
         self.excursionMenu.addAction(self.addExcursionAction)
         self.excursionMenu.addAction(self.removeExcursionAction)
+        self.excursionMenu.addAction(self.findExcursionAction)
         self.menubar.addAction(self.profileMenu.menuAction())
         self.menubar.addAction(self.exhibitionMenu.menuAction())
         self.menubar.addAction(self.excursionMenu.menuAction())
@@ -672,52 +606,14 @@ class ManagerMainWindowView(object):
         _translate = QtCore.QCoreApplication.translate
         ManagerMainWindow.setWindowTitle(_translate("ManagerMainWindow", "Главное окно - (Менеджер)"))
         self.exhibitonLabel.setText(_translate("ManagerMainWindow", "Ваши выставки"))
-        self.exhibitionTable.setSortingEnabled(False)
-        item = self.exhibitionTable.verticalHeaderItem(0)
-        item.setText(_translate("ManagerMainWindow", "1"))
-        item = self.exhibitionTable.verticalHeaderItem(1)
-        item.setText(_translate("ManagerMainWindow", "2"))
-        item = self.exhibitionTable.verticalHeaderItem(2)
-        item.setText(_translate("ManagerMainWindow", "3"))
-        item = self.exhibitionTable.verticalHeaderItem(3)
-        item.setText(_translate("ManagerMainWindow", "4"))
-        item = self.exhibitionTable.verticalHeaderItem(4)
-        item.setText(_translate("ManagerMainWindow", "5"))
-        item = self.exhibitionTable.horizontalHeaderItem(0)
-        item.setText(_translate("ManagerMainWindow", "Название"))
-        item = self.exhibitionTable.horizontalHeaderItem(1)
-        item.setText(_translate("ManagerMainWindow", "Описание"))
-        item = self.exhibitionTable.horizontalHeaderItem(2)
-        item.setText(_translate("ManagerMainWindow", "Площадь"))
-        item = self.exhibitionTable.horizontalHeaderItem(3)
-        item.setText(_translate("ManagerMainWindow", "Дата начала"))
-        item = self.exhibitionTable.horizontalHeaderItem(4)
-        item.setText(_translate("ManagerMainWindow", "Дата окончания"))
+        self.exhibitionTable.setSortingEnabled(True)
         self.editExhibitionButton.setText(_translate("ManagerMainWindow", "Редактировать"))
         self.addExhibitionButton.setText(_translate("ManagerMainWindow", "Добавить выставку"))
         self.deleteExhibitionButton.setText(_translate("ManagerMainWindow", "Удалить выставку"))
         self.findExhibitionButton.setText(_translate("ManagerMainWindow", "Поиск"))
         self.openExhibitionCalendarButton.setText(_translate("ManagerMainWindow", "Открыть календарь выставок"))
         self.exhibitonLabel_2.setText(_translate("ManagerMainWindow", "Ваши экскурсии"))
-        self.excursionTable.setSortingEnabled(False)
-        item = self.excursionTable.verticalHeaderItem(0)
-        item.setText(_translate("ManagerMainWindow", "1"))
-        item = self.excursionTable.verticalHeaderItem(1)
-        item.setText(_translate("ManagerMainWindow", "2"))
-        item = self.excursionTable.verticalHeaderItem(2)
-        item.setText(_translate("ManagerMainWindow", "3"))
-        item = self.excursionTable.verticalHeaderItem(3)
-        item.setText(_translate("ManagerMainWindow", "4"))
-        item = self.excursionTable.verticalHeaderItem(4)
-        item.setText(_translate("ManagerMainWindow", "5"))
-        item = self.excursionTable.horizontalHeaderItem(0)
-        item.setText(_translate("ManagerMainWindow", "Название"))
-        item = self.excursionTable.horizontalHeaderItem(1)
-        item.setText(_translate("ManagerMainWindow", "Описание"))
-        item = self.excursionTable.horizontalHeaderItem(2)
-        item.setText(_translate("ManagerMainWindow", "Назначенный экскурсовод"))
-        item = self.excursionTable.horizontalHeaderItem(3)
-        item.setText(_translate("ManagerMainWindow", "Стоимость"))
+        self.excursionTable.setSortingEnabled(True)
         self.editExcursionButton.setText(_translate("ManagerMainWindow", "Редактировать"))
         self.addExcursionButton.setText(_translate("ManagerMainWindow", "Добавить экскурсию"))
         self.deleteExcursionButton.setText(_translate("ManagerMainWindow", "Удалить экскурсию"))
@@ -729,13 +625,23 @@ class ManagerMainWindowView(object):
         self.action.setText(_translate("ManagerMainWindow", "Поиск..."))
         self.viewProfileInfoAction.setText(_translate("ManagerMainWindow", "Показать"))
         self.quitSessionAction.setText(_translate("ManagerMainWindow", "Выход"))
+        self.quitSessionAction.setShortcut(_translate("ManagerMainWindow", "Ctrl+Q"))
         self.selectExhibitionTableAction.setText(_translate("ManagerMainWindow", "Выбрать"))
+        self.selectExhibitionTableAction.setShortcut(_translate("ManagerMainWindow", "F1"))
         self.addExhibitionTableAction.setText(_translate("ManagerMainWindow", "Добавить"))
+        self.addExhibitionTableAction.setShortcut(_translate("ManagerMainWindow", "Ctrl+N"))
         self.deleteExhibitionTableAction.setText(_translate("ManagerMainWindow", "Удалить"))
+        self.deleteExhibitionTableAction.setShortcut(_translate("ManagerMainWindow", "Alt+D"))
         self.findExhibitionTableAction.setText(_translate("ManagerMainWindow", "Поиск..."))
+        self.findExhibitionTableAction.setShortcut(_translate("ManagerMainWindow", "Ctrl+F"))
         self.selectExcursionTableAction.setText(_translate("ManagerMainWindow", "Выбрать"))
+        self.selectExcursionTableAction.setShortcut(_translate("ManagerMainWindow", "F2"))
         self.addExcursionAction.setText(_translate("ManagerMainWindow", "Добавить"))
+        self.addExcursionAction.setShortcut(_translate("ManagerMainWindow", "Ctrl+N"))
         self.removeExcursionAction.setText(_translate("ManagerMainWindow", "Удалить"))
+        self.removeExcursionAction.setShortcut(_translate("ManagerMainWindow", "Alt+D"))
+        self.findExcursionAction.setText(_translate("ManagerMainWindow", "Поиск"))
+        self.findExcursionAction.setShortcut(_translate("ManagerMainWindow", "Ctrl+F"))
 
 
 if __name__ == "__main__":

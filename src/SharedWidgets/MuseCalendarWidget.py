@@ -41,6 +41,3 @@ class MuseCalendarWidget(QCalendarWidget, MuseDataSource):
 
     def return_data_before_destroy(self):
         self.__parent_signal.signal.emit(self.get_data())
-
-    def __del__(self):
-        self.return_data_before_destroy()

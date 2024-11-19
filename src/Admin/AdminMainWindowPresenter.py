@@ -1,10 +1,11 @@
 from typing import Callable
 
-from PyQt5.QtWidgets import QMainWindow, QAction, QWidget, QTableWidget, QDialog, QTableWidgetItem
+from PyQt5.QtWidgets import QMainWindow, QAction, QWidget, QDialog, QTableWidgetItem
 
-from src.DialogFormFactory import DialogFormFactory
 from src.Emitters import VoidEmitter, TupleEmitter
+from src.SharedWidgets.MuseDialog.DialogFormFactory import DialogFormFactory
 from .AdminMainWindowView import AdministratorMainWindowView
+from ..SharedWidgets.MuseTableWidget import MuseTableWidget
 
 __all__ = ["AdminMainWindow"]
 
@@ -31,17 +32,19 @@ class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
         self.employeeTable.itemSelectionChanged.connect(
             lambda: self.__focus_change([self.editEmployeeButton,
                                          self.addEmployeeAction,
-                                         self.removeEmployeeAction],
-                                        [self.editExhibitButton])
+                                         self.removeEmployeeAction,
+                                         self.findEmployeeAction],
+                                        [self.editExhibitButton, self.findExhibitAction])
         )
         self.employeeTable.itemSelectionChanged.connect(
             self.exhibitTable.clearSelection
         )
 
         self.exhibitTable.itemSelectionChanged.connect(
-            lambda: self.__focus_change([self.editExhibitButton], [self.editEmployeeButton,
-                                                                   self.addEmployeeAction,
-                                                                   self.removeEmployeeAction])
+            lambda: self.__focus_change([self.editExhibitButton, self.findExhibitAction], [self.editEmployeeButton,
+                                                                                           self.addEmployeeAction,
+                                                                                           self.removeEmployeeAction,
+                                                                                           self.findEmployeeAction])
         )
         self.exhibitTable.itemSelectionChanged.connect(
             lambda: self.employeeTable.clearSelection()
@@ -49,20 +52,22 @@ class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
 
         self.editExhibitButton.clicked.connect(
             lambda: self.form_dialog("Изменить данные об экспонате", "Изменить", "Экспонат",
-                                     operation=self.edit_exhibit, table=self.exhibitTable)
+                                     operation=self.edit_exhibit, table=self.exhibitTable, is_new_row=False)
         )
         self.editEmployeeButton.clicked.connect(
             lambda: self.form_dialog("Изменить данные о сотруднике", "Изменить", "Сотрудник",
-                                     operation=self.edit_employee, table=self.employeeTable)
+                                     operation=self.edit_employee, table=self.employeeTable, is_new_row=False)
         )
         self.addEmployeeButton.clicked.connect(
             lambda: self.form_dialog("Добавить сотрудника", "Добавить", "Сотрудник",
-                                     operation=self.add_employee, table=self.employeeTable)
+                                     operation=self.add_employee, table=self.employeeTable, is_new_row=True)
         )
         self.addEmployeeAction.triggered.connect(
             lambda: self.form_dialog("Добавить сотрудника", "Добавить", "Сотрудник",
-                                     operation=self.add_employee, table=self.employeeTable)
+                                     operation=self.add_employee, table=self.employeeTable, is_new_row=True)
         )
+
+        self.removeEmployeeButton.clicked.connect(self.employeeTable.get_row_range)
 
         self.__quit_session_signal = parent_signal
         self.quitSessionAction.triggered.connect(
@@ -84,26 +89,16 @@ class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
         for widget in unfocused_widgets:
             widget.setEnabled(False)
 
-    @staticmethod
-    def __get_row_data(table_widget: QTableWidget) -> list[tuple[str]]:
-        selected_row: int = table_widget.currentRow()
-        column_count: int = table_widget.columnCount()
-        result: list[tuple[str]] = []
-        for i in range(column_count):
-            try:
-                result.append((table_widget.horizontalHeaderItem(i).text(),
-                               table_widget.item(selected_row, i).text())
-                              )
-            except AttributeError:
-                result.append((table_widget.horizontalHeaderItem(i).text(),
-                               ""
-                               ))
-        return result
-
-    def form_dialog(self, window_title: str, button_label: str, table_name: str,
-                    operation: Callable, table: QTableWidget):
+    def form_dialog(self,
+                    window_title: str,
+                    button_label: str,
+                    table_name: str,
+                    operation: Callable,
+                    table: MuseTableWidget,
+                    is_new_row: bool
+                    ):
         dialog_factory: DialogFormFactory = DialogFormFactory(window_title, button_label, table_name,
-                                                              self.__get_row_data(table))
+                                                              table.get_row_data(is_new_row))
         send_data_signal = TupleEmitter(self)
         send_data_signal.signal.connect(operation)
         dialog_form: QDialog = dialog_factory(send_data_signal)
@@ -122,3 +117,6 @@ class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
         self.employeeTable.insertRow(self.employeeTable.rowCount())
         for i in range(self.employeeTable.columnCount()):
             self.employeeTable.setItem(self.employeeTable.rowCount() - 1, i, QTableWidgetItem(dialog_output[i]))
+
+    def sort_exhibit_table(self):
+        is_ascending: bool = self.exRadioButtonAscending.isChecked()
