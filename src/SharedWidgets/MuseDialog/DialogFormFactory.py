@@ -39,6 +39,7 @@ class DialogFormFactory:
                         first_value = possible_values[0][:]
                         possible_values[0] = data
                         possible_values[current_text_index] = first_value
+                    print(possible_values)
                     input_widget.addItems(possible_values)
                     pass
 

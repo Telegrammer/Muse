@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>816</width>
-    <height>622</height>
+    <height>642</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -49,69 +49,43 @@ QWidget{background-color: rgb(255, 253, 223);}</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <spacer name="verticalSpacer_3">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
-    <widget class="MuseLabel" name="templateLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-	font: 87 8pt &quot;Arial Black&quot;;
+    <layout class="QHBoxLayout" name="headerLayout">
+     <item>
+      <widget class="MuseLabel" name="headerLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+	font: 87 15pt &quot;Arial Black&quot;;
 	color: rgb(82, 30, 1);
 }</string>
-     </property>
-     <property name="text">
-      <string>Образец:</string>
-     </property>
-    </widget>
+       </property>
+       <property name="text">
+        <string>ПОИСК</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item>
-    <widget class="MuseLineEdit" name="templateLineEdit">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>31</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>31</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLineEdit {
-	
-	font: 8pt &quot;Arial&quot;;
-	padding-left: 10px;
-	padding-right: 10px;
-	background-color: rgb(250, 235, 180);
-	border-radius: 10px;
-}
-
-QLineEdit:focus {
-  border: 2px solid rgb(250, 201, 131);
-}</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <spacer name="verticalSpacer_2">
+    <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -127,27 +101,65 @@ QLineEdit:focus {
     </spacer>
    </item>
    <item>
-    <widget class="QPushButton" name="templateButton">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>100</width>
-       <height>31</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>31</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QWidget {
+    <layout class="QHBoxLayout" name="availableFiltersLayout">
+     <item>
+      <widget class="MuseLabel" name="filterLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+	font: 87 10pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}</string>
+       </property>
+       <property name="text">
+        <string>Доступные фильтры</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="filterComboBox">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="filterButtonsLayout">
+     <item>
+      <widget class="QPushButton" name="removeFilterButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QWidget {
 	background-color: rgb(250, 234, 153);
 	border: 1px solid rgb(250, 201, 131);
 	border-radius: 10px;
@@ -162,17 +174,124 @@ QAbstractButton {
 QPushButton:hover:!pressed {
   border: 2px solid rgb(250, 201, 131);
 }</string>
-     </property>
-     <property name="text">
-      <string>Образец</string>
-     </property>
-     <property name="shortcut">
-      <string>Ctrl+S</string>
-     </property>
-    </widget>
+       </property>
+       <property name="text">
+        <string>Убрать фильтр</string>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+S</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="addFilterButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QWidget {
+	background-color: rgb(250, 234, 153);
+	border: 1px solid rgb(250, 201, 131);
+	border-radius: 10px;
+	text-align: center;
+}
+
+QAbstractButton {
+	
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}
+QPushButton:hover:!pressed {
+  border: 2px solid rgb(250, 201, 131);
+}</string>
+       </property>
+       <property name="text">
+        <string>Добавить фильтр</string>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+S</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer">
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::MinimumExpanding</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="filterDateRangeLayout">
+     <item>
+      <widget class="QDateEdit" name="filterDateEditEnd">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 87 8pt &quot;Arial Black&quot;;
+
+border: 1px solid;
+border-radius:  5px;
+</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDateEdit" name="filterDateEditStart">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 87 8pt &quot;Arial Black&quot;;
+
+border: 1px solid;
+border-radius:  5px;
+</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_3">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -184,14 +303,63 @@ QPushButton:hover:!pressed {
      </property>
     </spacer>
    </item>
+   <item>
+    <layout class="QHBoxLayout" name="dialogButtonsLayout">
+     <item>
+      <widget class="QPushButton" name="findConfirmButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QWidget {
+	background-color: rgb(250, 234, 153);
+	border: 1px solid rgb(250, 201, 131);
+	border-radius: 10px;
+	text-align: center;
+}
+
+QAbstractButton {
+	
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}
+QPushButton:hover:!pressed {
+  border: 2px solid  rgb(250, 201, 131);
+}
+
+
+
+QPushButton:!enabled {
+	
+	background: rgba(160, 160, 160, 100);
+	font: 87 8pt &quot;Arial Black&quot;;
+	border: 1px solid rgb(150, 150, 150);
+	border-radius: 10px;
+	color: rgba(82, 30, 1, 100);
+}</string>
+       </property>
+       <property name="text">
+        <string>Найти</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>MuseLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header location="global">muselineedit.h</header>
-  </customwidget>
   <customwidget>
    <class>MuseLabel</class>
    <extends>QLabel</extends>

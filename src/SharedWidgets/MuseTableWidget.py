@@ -77,11 +77,15 @@ class MuseTableWidget(QtWidgets.QTableWidget, MuseTableWidgetView):
             item: QtWidgets.QTableWidgetItem = QtWidgets.QTableWidgetItem()
             self.setItem(self.rowCount() - 1, i, item)
 
-    def setItem(self, row: int, column: int, item: QtWidgets.QWidgetItem):
+    def setItem(self, row: int, column: int, item: QtWidgets.QTableWidgetItem):
         attribute_type: MuseTableWidget.ItemType = self.__attributes[list(self.__attributes.keys())[column]]
         if attribute_type != MuseTableWidget.ItemType.varchar:
             item.setFlags(item.flags() ^ QtCore.Qt.ItemIsEditable)
         QtWidgets.QTableWidget.setItem(self, row, column, item)
+
+    def set_row(self, row_data: tuple):
+        for i in range(self.columnCount()):
+            self.setItem(self.rowCount() - 1, i, QtWidgets.QTableWidgetItem(row_data[i]))
 
     def insert_attribute(self, attribute_name: str, attribute_type: ItemType, column: int = None):
 
@@ -156,6 +160,7 @@ class MuseTableWidget(QtWidgets.QTableWidget, MuseTableWidgetView):
             case MuseTableWidget.ItemType.enumType:
                 item_widget = MuseComboBox(QtCore.QRect(10, 10, 100, 100), parent_signal=receive_data_signal)
                 possible_values = self.__attributes_enums[attribute_name][:]
+                print(possible_values)
                 current_item_text: str = self.currentItem().text()
                 if current_item_text != "":
                     current_text_index = possible_values.index(current_item_text)

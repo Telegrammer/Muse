@@ -137,10 +137,9 @@ class AdministratorMainWindowView(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.employeeTable = MuseTableWidget({"Фио": MuseTableWidget.ItemType.varchar,
                                               "Должность": MuseTableWidget.ItemType.enumType,
-                                              "Номер телефона": MuseTableWidget.ItemType.varchar,
                                               "Дата рождения": MuseTableWidget.ItemType.dateType,
+                                              "Номер телефона": MuseTableWidget.ItemType.varchar,
                                               }, parent=self.adminEmployeeTable)
-        self.employeeTable.set_attribute_values("Должность", ["Администратор", "Менеджер", "Куратор", "Экускурсовод"])
 
         self.employeeTable.horizontalHeader().setCascadingSectionResizes(False)
         self.employeeTable.horizontalHeader().setDefaultSectionSize(115)
@@ -400,19 +399,13 @@ class AdministratorMainWindowView(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.exhibitTable = MuseTableWidget({"Наименование": MuseTableWidget.ItemType.varchar,
                                              "Вид": MuseTableWidget.ItemType.enumType,
-                                             "Зал": MuseTableWidget.ItemType.enumType,
+                                             "Номер зала": MuseTableWidget.ItemType.enumType,
+                                             "Описание": MuseTableWidget.ItemType.varchar,
                                              "Размер": MuseTableWidget.ItemType.varchar,
                                              "Год создания": MuseTableWidget.ItemType.varchar,
-                                             "Описание": MuseTableWidget.ItemType.varchar,
                                              "Происхождение": MuseTableWidget.ItemType.varchar}, parent=self.adminExhibitTable)
-        self.exhibitTable.insertRow(self.exhibitTable.rowCount())
-        self.exhibitTable.insertRow(self.exhibitTable.rowCount())
-        self.exhibitTable.insertRow(self.exhibitTable.rowCount())
         self.exhibitTable.horizontalHeader().setStretchLastSection(True)
 
-        self.exhibitTable.set_attribute_values("Вид",
-                                               ["Манипулятор", "Робот", "Самолет", "Статуэтка", "Тарелка", "Телефон"])
-        self.exhibitTable.set_attribute_values("Зал", ["1", "2", "3", "4", "5"])
         self.horizontalLayout_2.addWidget(self.exhibitTable)
         self.exhibitTableEditLayout = QtWidgets.QVBoxLayout()
         self.exhibitTableEditLayout.setObjectName("exhibitTableEditLayout")

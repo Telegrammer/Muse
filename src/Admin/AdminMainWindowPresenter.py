@@ -5,6 +5,8 @@ from PyQt5.QtWidgets import QMainWindow, QAction, QWidget, QDialog, QTableWidget
 from src.Emitters import VoidEmitter, TupleEmitter
 from src.SharedWidgets.MuseDialog.DialogFormFactory import DialogFormFactory
 from .AdminMainWindowView import AdministratorMainWindowView
+from .AdminRepository import AdminRepository, EmployeeData
+from ..DataBase.DataBaseConnectionHelper import DataBaseConnectionHelper
 from ..SharedWidgets.MuseTableWidget import MuseTableWidget
 
 __all__ = ["AdminMainWindow"]
@@ -12,9 +14,11 @@ __all__ = ["AdminMainWindow"]
 
 class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
 
-    def __init__(self, parent_signal: VoidEmitter):
+    def __init__(self, parent_signal: VoidEmitter, user_data: tuple):
+
         QMainWindow.__init__(self, None)
         self.setupUi(self)
+        self.__user_data = user_data
 
         self.setVisibleEmployeeTableButton.clicked.connect(
             lambda: self.__set_visible_table(self.adminEmployeeTable, self.selectEmployeeTableAction_)
@@ -74,6 +78,8 @@ class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
             lambda: self.__quit_session_signal.signal.emit()
         )
 
+        self.update_tables()
+
     @staticmethod
     def __set_visible_table(table: QWidget, action: QAction):
         table_visible: bool = table.isVisible()
@@ -115,8 +121,29 @@ class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
 
     def add_employee(self, dialog_output: tuple[str]):
         self.employeeTable.insertRow(self.employeeTable.rowCount())
+        conn = DataBaseConnectionHelper().connect()
+        cur = conn.cursor()
+        cur.execute(f"select * from getEmployees()")
+        result = cur.fetchall()
+        print(result)
+        cur.close()
+        conn.close()
         for i in range(self.employeeTable.columnCount()):
             self.employeeTable.setItem(self.employeeTable.rowCount() - 1, i, QTableWidgetItem(dialog_output[i]))
 
     def sort_exhibit_table(self):
         is_ascending: bool = self.exRadioButtonAscending.isChecked()
+
+    def update_tables(self):
+        employees = AdminRepository().get_employees(self.__user_data[EmployeeData.phoneNumber])
+        for employee in employees:
+            self.employeeTable.insertRow(self.employeeTable.rowCount())
+            self.employeeTable.set_row(employee)
+        self.employeeTable.set_attribute_values("Должность", AdminRepository().get_employees_positions())
+
+        exhibits = AdminRepository().get_exhibits()
+        for exhibit in exhibits:
+            self.exhibitTable.insertRow(self.exhibitTable.rowCount())
+            self.exhibitTable.set_row(exhibit)
+        self.exhibitTable.set_attribute_values("Вид", AdminRepository().get_exhibit_types())
+        self.exhibitTable.set_attribute_values("Номер зала", AdminRepository().get_exhibit_halls())

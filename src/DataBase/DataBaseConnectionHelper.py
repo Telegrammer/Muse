@@ -1,30 +1,17 @@
 import psycopg2
 
-import GLOBALS
+from .GLOBALS import ConnectionStringParams
 
-try:
-    # пытаемся подключиться к базе данных
-    conn = psycopg2.connect(dbname=GLOBALS.ConnectionStringParams.DATABASE_NAME,
-                            user=GLOBALS.ConnectionStringParams.USER,
-                            password=GLOBALS.ConnectionStringParams.password,
-                            host=GLOBALS.ConnectionStringParams.host)
-    cursor = conn.cursor()
-
-    cursor.execute('SELECT * FROM Сотрудник')
-    all_users = cursor.fetchall()
-    print(all_users)
-    cursor.close()  # закрываем курсор
-    conn.close()
-except:
-    # в случае сбоя подключения будет выведено сообщение в STDOUT
-    print('Can`t establish connection to database')
+__all__ = ["DataBaseConnectionHelper"]
 
 
 class DataBaseConnectionHelper:
 
     def __init__(self):
-        self.__data_base = property()
+        pass
 
-    def connect(self, server: str, database_name: str, user_name: str, password: str):
-        if self.__data_base is None:
-            pass
+    def connect(self, database_name: str = ConnectionStringParams.DATABASE_NAME,
+                user_name: str = ConnectionStringParams.USER,
+                password: str = ConnectionStringParams.PASSWORD,
+                host: str = ConnectionStringParams.HOST):
+        return psycopg2.connect(dbname=database_name, user=user_name, password=password, host=host)
