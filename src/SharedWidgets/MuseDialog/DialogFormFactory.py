@@ -39,7 +39,7 @@ class DialogFormFactory:
                         first_value = possible_values[0][:]
                         possible_values[0] = data
                         possible_values[current_text_index] = first_value
-                    print(possible_values)
+
                     input_widget.addItems(possible_values)
                     pass
 
@@ -56,10 +56,6 @@ class DialogFormFactory:
         dialog_form.get_confirm_button().setText(self.__button_label)
         dialog_form.set_layout(vertical_layout)
         dialog_form.setModal(True)
-
-        if self.__table_part is None:
-            vertical_layout.addWidget(dialog_form.get_confirm_button())
-            return dialog_form
 
         vertical_layout.addWidget(dialog_form.get_confirm_button())
         return dialog_form

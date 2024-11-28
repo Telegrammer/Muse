@@ -36,7 +36,6 @@ class MuseCalendarWidget(QCalendarWidget, MuseDataSource):
 
     def get_data(self):
         selected_date: QDate = self.selectedDate()
-        print(selected_date)
         return selected_date.toString("dd.MM.yyyy")
 
     def return_data_before_destroy(self):

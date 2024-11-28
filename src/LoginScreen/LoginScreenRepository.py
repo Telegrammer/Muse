@@ -1,31 +1,28 @@
+from ..AbstractRepository import AbstractRepository
 from ..DataBase import DataBaseConnectionHelper
 
 
-class LoginScreenRepository:
+class LoginScreenRepository(AbstractRepository):
 
     def __init__(self):
-        pass
+        super().__init__()
 
-    @staticmethod
-    def authenticate_user(login: str, password: str = "null") -> str:
-        connection = DataBaseConnectionHelper().connect()
-        cursor = connection.cursor()
-        cursor.execute(f"select authenticateUser('{login}', {password})")
-        status = cursor.fetchone()[0]
-        cursor.close()
-        connection.close()
+    def prepare_command(self):
+        self._connection = DataBaseConnectionHelper().connect()
+        self._cursor = self._connection.cursor()
+
+    def authenticate_user(self, login: str, password: str = "null") -> str:
+        self.prepare_command()
+        self._cursor.execute(f"select authenticateUser('{login}', {password})")
+        status = self._cursor.fetchone()[0]
         return status
 
-    @staticmethod
-    def authorize_user(role: str, login: str, password: str = "null") -> tuple:
+    def authorize_user(self, role: str, login: str, password: str = "null") -> tuple:
+        self.prepare_command()
         roles_commands: dict[str, str] = {"даритель": f"select * from findDonatorWithLoginData('{login}', {password});",
                                           "сотрудник": f"select * from findEmployeeWithLoginData('{login}', {password});"}
-        connection = DataBaseConnectionHelper().connect()
-        cursor = connection.cursor()
-        cursor.execute(roles_commands[role])
-        user_data = cursor.fetchone()
-        cursor.close()
-        connection.close()
+        self._cursor.execute(roles_commands[role])
+        user_data = self._cursor.fetchone()
         return user_data
 
     @staticmethod

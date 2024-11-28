@@ -51,12 +51,11 @@ class LoginScreen(QWidget, LoginScreenView):
 
     def create_main_window(self):
         login: str = self.loginLineEdit.text()
-        status: str = LoginScreenRepository.authenticate_user(login)
+        status: str = LoginScreenRepository().authenticate_user(login)
         if status not in LoginScreenRepository.get_roles():
             return
 
-        user_data: tuple = LoginScreenRepository.authorize_user(status, login)
-        print(user_data)
+        user_data: tuple = LoginScreenRepository().authorize_user(status, login)
         factory: MainWindowFactory = MainWindowFactory(user_data)
         if status == "даритель":
             window, quit_session_signal = factory.create_main_window(status)

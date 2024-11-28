@@ -14,10 +14,6 @@ from enum import IntEnum
 
 from PyQt5 import QtCore, QtWidgets
 
-from src.SharedWidgets.MuseCalendarWidget import MuseCalendarWidget
-from src.SharedWidgets.MuseComboBox import MuseComboBox
-from src.SharedWidgets.MuseDataSource import StringEmitter
-
 
 class MuseTableWidgetView(object):
     def setup_ui(self, table_widget: QtWidgets.QTableWidget, column_count, header_names: list[str]):
@@ -56,8 +52,9 @@ class MuseTableWidgetView(object):
 class MuseTableWidget(QtWidgets.QTableWidget, MuseTableWidgetView):
     class ItemType(IntEnum):
         varchar = 0
-        enumType = 1
-        dateType = 2
+        integer = 1
+        enumType = 2
+        dateType = 3
 
     def __init__(self, attributes: dict[str, ItemType], parent=QtCore.QObject):
         QtWidgets.QTableWidget.__init__(self, parent)
@@ -65,11 +62,11 @@ class MuseTableWidget(QtWidgets.QTableWidget, MuseTableWidgetView):
         self.setup_ui(self, self.__attributes_count, [name for name in attributes.keys()])
         self.__attributes_enums: dict[str, list[str]] = {}
         self.__attributes: dict[str, MuseTableWidget.ItemType] = attributes
-        self.cellDoubleClicked.connect(self.identify_item_input)
-        self.itemSelectionChanged.connect(self.close_item_input)
 
         self.__last_row = None
         self.__last_column = None
+        self.__ids = []
+        self.__filters = []
 
     def insertRow(self, row: int):
         QtWidgets.QTableWidget.insertRow(self, row)
@@ -77,10 +74,27 @@ class MuseTableWidget(QtWidgets.QTableWidget, MuseTableWidgetView):
             item: QtWidgets.QTableWidgetItem = QtWidgets.QTableWidgetItem()
             self.setItem(self.rowCount() - 1, i, item)
 
+    def get_attributes(self):
+        return self.__attributes
+
+    def get_ids(self):
+        return self.__ids
+
+    def get_id(self, index: int):
+        return self.__ids[index]
+
+    def add_id(self, row_id: int):
+        self.__ids.append(row_id)
+
+    def remove_id(self, index: int):
+        self.__ids.pop(index)
+
+    def clear_ids(self):
+        self.__ids = []
+
     def setItem(self, row: int, column: int, item: QtWidgets.QTableWidgetItem):
         attribute_type: MuseTableWidget.ItemType = self.__attributes[list(self.__attributes.keys())[column]]
-        if attribute_type != MuseTableWidget.ItemType.varchar:
-            item.setFlags(item.flags() ^ QtCore.Qt.ItemIsEditable)
+        item.setFlags(item.flags() ^ QtCore.Qt.ItemIsEditable)
         QtWidgets.QTableWidget.setItem(self, row, column, item)
 
     def set_row(self, row_data: tuple):
@@ -149,49 +163,11 @@ class MuseTableWidget(QtWidgets.QTableWidget, MuseTableWidgetView):
     def get_row_range(self):
         return [model_index.row() for model_index in self.selectionModel().selectedRows()]
 
-    def identify_item_input(self):
-        attribute_name = list(self.__attributes.keys())[self.currentColumn()]
-        attribute = self.__attributes[attribute_name]
-        self.__last_row = self.currentRow()
-        self.__last_column = self.currentColumn()
-        receive_data_signal = StringEmitter(None)
-        receive_data_signal.signal.connect(self.receive_data)
-        match attribute:
-            case MuseTableWidget.ItemType.enumType:
-                item_widget = MuseComboBox(QtCore.QRect(10, 10, 100, 100), parent_signal=receive_data_signal)
-                possible_values = self.__attributes_enums[attribute_name][:]
-                print(possible_values)
-                current_item_text: str = self.currentItem().text()
-                if current_item_text != "":
-                    current_text_index = possible_values.index(current_item_text)
-                    first_value = possible_values[0][:]
-                    possible_values[0] = current_item_text
-                    possible_values[current_text_index] = first_value
+    def set_filters(self, filters: tuple[tuple[str, str]]):
+        self.__filters = filters
 
-                item_widget.addItems(possible_values)
-                self.setCellWidget(self.currentRow(), self.currentColumn(), item_widget)
-            case MuseTableWidget.ItemType.dateType:
-                item_widget = MuseCalendarWidget(parent_signal=receive_data_signal)
-                item_widget.resize(100, 100)
-                self.setCellWidget(self.currentRow(), self.currentColumn(), item_widget)
-                self.resizeRowToContents(self.currentRow())
-                self.resizeColumnToContents(self.currentColumn())
-            case _:
-                pass
-
-    def receive_data(self, data: str):
-        self.setItem(self.__last_row, self.__last_column, QtWidgets.QTableWidgetItem(data))
-
-    def close_item_input(self):
-        if self.__last_column is None or self.__last_row is None:
-            return
-        if self.cellWidget(self.__last_row, self.__last_column) is not None:
-            self.cellWidget(self.__last_row, self.__last_column).close()
-        self.setCellWidget(self.__last_row, self.__last_column, None)
-        self.resizeRowToContents(self.__last_row)
-        self.resizeColumnToContents(self.__last_column)
-        self.__last_column = None
-        self.__last_row = None
+    def get_filters(self):
+        return self.__filters
 
 
 if __name__ == "__main__":

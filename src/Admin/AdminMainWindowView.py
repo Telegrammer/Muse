@@ -402,8 +402,9 @@ class AdministratorMainWindowView(object):
                                              "Номер зала": MuseTableWidget.ItemType.enumType,
                                              "Описание": MuseTableWidget.ItemType.varchar,
                                              "Размер": MuseTableWidget.ItemType.varchar,
-                                             "Год создания": MuseTableWidget.ItemType.varchar,
-                                             "Происхождение": MuseTableWidget.ItemType.varchar}, parent=self.adminExhibitTable)
+                                             "Год создания": MuseTableWidget.ItemType.integer,
+                                             "Происхождение": MuseTableWidget.ItemType.varchar,
+                                             "Состояние": MuseTableWidget.ItemType.enumType}, parent=self.adminExhibitTable)
         self.exhibitTable.horizontalHeader().setStretchLastSection(True)
 
         self.horizontalLayout_2.addWidget(self.exhibitTable)
@@ -616,6 +617,8 @@ class AdministratorMainWindowView(object):
         self.menubar.addAction(self.exhibitMenu.menuAction())
         self.addEmployeeAction.setEnabled(False)
         self.removeEmployeeAction.setEnabled(False)
+        self.editTableShortCut = QtWidgets.QShortcut(QtGui.QKeySequence("5"), AdministratorMainWindow)
+        self.editTableShortCut.setContext(QtCore.Qt.WidgetWithChildrenShortcut)
 
         self.retranslateUi(AdministratorMainWindow)
         QtCore.QMetaObject.connectSlotsByName(AdministratorMainWindow)
@@ -624,9 +627,9 @@ class AdministratorMainWindowView(object):
         _translate = QtCore.QCoreApplication.translate
         AdministratorMainWindow.setWindowTitle(_translate("AdministratorMainWindow", "Главное окно (Администратор)"))
         self.employeeLabel.setText(_translate("AdministratorMainWindow", "Сотрудники"))
-        self.employeeTable.setSortingEnabled(True)
+        self.employeeTable.setSortingEnabled(False)
         __sortingEnabled = self.employeeTable.isSortingEnabled()
-        self.employeeTable.setSortingEnabled(True)
+        self.employeeTable.setSortingEnabled(False)
         self.employeeTable.setSortingEnabled(__sortingEnabled)
         self.editEmployeeButton.setText(_translate("AdministratorMainWindow", "Редактировать"))
         self.addEmployeeButton.setText(_translate("AdministratorMainWindow", "Добавить сотрудника"))
@@ -640,7 +643,7 @@ class AdministratorMainWindowView(object):
         self.empRadioButtonDescending.setText(_translate("AdministratorMainWindow", "По убыванию"))
         self.sortEmployeeButton.setText(_translate("AdministratorMainWindow", "Сортировать"))
         self.exhibitLabel.setText(_translate("AdministratorMainWindow", "Экспонаты"))
-        self.exhibitTable.setSortingEnabled(True)
+        self.exhibitTable.setSortingEnabled(False)
         self.editExhibitButton.setText(_translate("AdministratorMainWindow", "Редактировать"))
         self.findExhibitButton.setText(_translate("AdministratorMainWindow", "Поиск"))
         self.sortExhibitTypeLabel.setText(_translate("AdministratorMainWindow", "Параметры сортировки:"))

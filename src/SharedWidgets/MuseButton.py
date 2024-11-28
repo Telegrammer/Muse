@@ -28,6 +28,14 @@ class MuseButtonView(object):
                              "}\n"
                              "QPushButton:hover:!pressed {\n"
                              "  border: 2px solid rgb(250, 201, 131);\n"
+                             "}"
+                             "QPushButton:!enabled {\n"
+                             "    \n"
+                             "    background: rgba(160, 160, 160, 100);\n"
+                             "    font: 87 8pt \"Arial Black\";\n"
+                             "    border: 1px solid rgb(150, 150, 150);\n"
+                             "    border-radius: 10px;\n"
+                             "    color: rgba(82, 30, 1, 100);\n"
                              "}")
 
         button.setMinimumSize(QSize(len(text) * 8, 31))

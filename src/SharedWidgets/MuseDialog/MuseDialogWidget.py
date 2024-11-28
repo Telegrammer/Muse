@@ -48,24 +48,25 @@ class MuseDialog(QDialog, MuseDialogView):
     def __init__(self, size: QSize, parent_signal: TupleEmitter):
         QDialog.__init__(self, None)
         self.setup_ui(self, size)
-        self.__confirm_button = MuseButton("", self)
-        self.__data_sources: list[MuseDataSource] = []
-        self.__data_transfer = parent_signal
-        self.__confirm_button.clicked.connect(self.__send_data)
-        self.__layout: QVBoxLayout = None
+        self._confirm_button = MuseButton("", self)
+        self._data_sources: list[MuseDataSource] = []
+        self._data_transfer = parent_signal
+        self._confirm_button.clicked.connect(self._send_data)
+        self._layout: QVBoxLayout = None
 
-    def __send_data(self):
-        self.__data_transfer.signal.emit(tuple(data_source.get_data() for data_source in self.__data_sources))
+    def _send_data(self):
+        print(tuple(data_source.get_data() for data_source in self._data_sources))
+        self._data_transfer.signal.emit(tuple(data_source.get_data() for data_source in self._data_sources))
         self.close()
 
     def get_confirm_button(self) -> QPushButton:
-        return self.__confirm_button
+        return self._confirm_button
 
     def set_layout(self, layout: QVBoxLayout):
-        self.__layout = layout
+        self._layout = layout
 
     def get_layout(self):
-        return self.__layout
+        return self._layout
 
     def add_data_source(self, data_source: MuseDataSource):
-        self.__data_sources.append(data_source)
+        self._data_sources.append(data_source)
