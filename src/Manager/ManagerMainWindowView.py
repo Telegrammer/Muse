@@ -418,12 +418,11 @@ class ManagerMainWindowView(object):
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.excursionTable = MuseTableWidget({"Название": MuseTableWidget.ItemType.varchar,
-                                               "Назначенный экскуросвод": MuseTableWidget.ItemType.enumType,
+                                               "Назначенный экскурсовод": MuseTableWidget.ItemType.enumType,
                                                "Описание": MuseTableWidget.ItemType.varchar,
                                                "Стоимость": MuseTableWidget.ItemType.varchar},
                                               parent=self.managerExcursionTableWidget
                                               )
-        self.excursionTable.set_attribute_values("Назначенный экскуросвод", ["Иванов", "Смирнов", "Сидоров"])
         self.excursionTable.horizontalHeader().setCascadingSectionResizes(False)
         self.excursionTable.horizontalHeader().setDefaultSectionSize(115)
         self.excursionTable.horizontalHeader().setStretchLastSection(True)
@@ -606,14 +605,14 @@ class ManagerMainWindowView(object):
         _translate = QtCore.QCoreApplication.translate
         ManagerMainWindow.setWindowTitle(_translate("ManagerMainWindow", "Главное окно - (Менеджер)"))
         self.exhibitonLabel.setText(_translate("ManagerMainWindow", "Ваши выставки"))
-        self.exhibitionTable.setSortingEnabled(True)
+        self.exhibitionTable.setSortingEnabled(False)
         self.editExhibitionButton.setText(_translate("ManagerMainWindow", "Редактировать"))
         self.addExhibitionButton.setText(_translate("ManagerMainWindow", "Добавить выставку"))
         self.deleteExhibitionButton.setText(_translate("ManagerMainWindow", "Удалить выставку"))
         self.findExhibitionButton.setText(_translate("ManagerMainWindow", "Поиск"))
         self.openExhibitionCalendarButton.setText(_translate("ManagerMainWindow", "Открыть календарь выставок"))
-        self.exhibitonLabel_2.setText(_translate("ManagerMainWindow", "Ваши экскурсии"))
-        self.excursionTable.setSortingEnabled(True)
+        self.exhibitonLabel_2.setText(_translate("ManagerMainWindow", "Экскурсии"))
+        self.excursionTable.setSortingEnabled(False)
         self.editExcursionButton.setText(_translate("ManagerMainWindow", "Редактировать"))
         self.addExcursionButton.setText(_translate("ManagerMainWindow", "Добавить экскурсию"))
         self.deleteExcursionButton.setText(_translate("ManagerMainWindow", "Удалить экскурсию"))

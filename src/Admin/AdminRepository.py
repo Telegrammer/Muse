@@ -67,7 +67,7 @@ class AdminRepository(AbstractRepository):
 
     def get_exhibit_halls(self):
         self.prepare_command()
-        self._cursor.execute(f"select * from getExhibitHalls();")
+        self._cursor.execute(f"select * from getExhibitHallsIds();")
         exhibit_halls = [exhibitHall[0] for exhibitHall in self._cursor.fetchall()]
 
         return exhibit_halls
@@ -79,7 +79,6 @@ class AdminRepository(AbstractRepository):
         self._connection.commit()
 
     def edit_employee(self, new_name: str, new_position: str, new_birth_date: str, new_phone: str, employee_id: str):
-        print(new_name, new_position, new_birth_date, new_phone, employee_id)
         self.prepare_command()
         self._cursor.execute(
             f"call editEmployee('{new_name}', '{new_position}', '{new_birth_date}', '{new_phone}', {employee_id});")
@@ -124,7 +123,6 @@ class AdminRepository(AbstractRepository):
         command_string: str = f"select * from getEmployees('{sender_phone_number}', {row_range_start}, {row_range_end})"
         command_string = self.build_filters(command_string, "getEmployees", attributes=attributes)
         command_string = self.set_order(command_string, "getEmployees", orders)
-        print(command_string)
         self._cursor.execute(command_string)
         employees = self._cursor.fetchall()
 
@@ -135,6 +133,7 @@ class AdminRepository(AbstractRepository):
         self.prepare_command()
         command_string = f"select * from getExhibits({row_range_start}, {row_range_end})"
         command_string = self.build_filters(command_string, "getExhibits", attributes=attributes)
+        command_string = self.set_order(command_string, "getExhibits", orders)
         self._cursor.execute(command_string)
         exhibits = self._cursor.fetchall()
         return exhibits

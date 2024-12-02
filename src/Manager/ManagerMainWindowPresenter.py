@@ -1,23 +1,29 @@
 from typing import Callable
 
+from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QMainWindow
-from PyQt5.QtWidgets import QWidget, QDialog, QAction, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget, QAction, QTableWidgetItem
 
 from src.Emitters import VoidEmitter, TupleEmitter
 from src.SharedWidgets.MuseDialog.DialogFormFactory import DialogFormFactory
+from src.SharedWidgets.MuseDialog.MuseFindDialogWidget import MuseFindDialog
+from .EditExcursionComposition import EditExcursionCompositionDialog
 from .ManagerMainWindowView import ManagerMainWindowView
-from .gantaDiagram import Ui_Form
-from ..SharedWidgets.MuseTableWidget import MuseTableWidget
+from .ManagerRepository import ManagerRepository
+from ..SharedWidgets.MuseButton import MuseButton
 from ..SharedWidgets.MuseDialog import MuseDialogWidget
+from ..SharedWidgets.MuseTableWidget import MuseTableWidget
 
 __all__ = ["ManagerMainWindow"]
 
 
 class ManagerMainWindow(QMainWindow, ManagerMainWindowView):
 
-    def __init__(self, parent_signal: VoidEmitter):
+    def __init__(self, parent_signal: VoidEmitter, user_data: tuple):
         QWidget.__init__(self, None)
+        self.__user_data = user_data
         self.setupUi(self)
+        self.update_tables()
 
         self.setVisibleExhibitionTableButton.clicked.connect(
             lambda: self.__set_visible_table(self.managerExhibitionTableWidget, self.selectExhibitionTableAction)
@@ -83,11 +89,20 @@ class ManagerMainWindow(QMainWindow, ManagerMainWindowView):
         )
 
         self.editExcursionButton.clicked.connect(
-            lambda: self.form_dialog("Изменить информацию об экскурсии", "Изменить", "Экскурсия",
-                                     operation=self.edit_excursion, table=self.excursionTable, is_new_row=False)
+            lambda: self.form_edit_excursion_dialog("Изменить информацию об экскурсии", "Изменить", "Экскурсия",
+                                                    operation=self.edit_excursion, table=self.excursionTable,
+                                                    is_new_row=False)
         )
 
-        self.openExhibitionCalendarButton.clicked.connect(self.open_calendar)
+        self.removeExcursionAction.triggered.connect(self.remove_excursion)
+        self.deleteExcursionButton.clicked.connect(self.remove_excursion)
+        self.findExcursionButton.clicked.connect(
+            lambda: self.form_find_dialog("Найти экскурсию", operation=self.find_excursions, table=self.excursionTable)
+        )
+        self.findExcursionAction.triggered.connect(
+            lambda: self.form_find_dialog("Найти экскурсию", operation=self.find_excursions, table=self.excursionTable)
+        )
+
 
         self.__quit_session_signal = parent_signal
         self.quitSessionAction.triggered.connect(
@@ -104,7 +119,6 @@ class ManagerMainWindow(QMainWindow, ManagerMainWindowView):
 
     @staticmethod
     def __focus_change(focused_widgets: list[QWidget], unfocused_widgets: list[QWidget]):
-        print("CPU")
         for widget in focused_widgets:
             widget.setEnabled(True)
         for widget in unfocused_widgets:
@@ -116,35 +130,124 @@ class ManagerMainWindow(QMainWindow, ManagerMainWindowView):
                     table_name: str,
                     operation: Callable,
                     table: MuseTableWidget,
-                    is_new_row: bool):
+                    is_new_row: bool
+                    ):
+        dialog_factory: DialogFormFactory = DialogFormFactory(window_title, button_label, table_name,
+                                                              table.get_row_data(is_new_row))
+        send_data_signal = TupleEmitter(self)
+        send_data_signal.signal.connect(operation)
+        dialog_form = dialog_factory(send_data_signal)
+        dialog_form.show()
+        dialog_form.exec_()
+
+    def form_edit_excursion_dialog(self,
+                                   window_title: str,
+                                   button_label: str,
+                                   table_name: str,
+                                   operation: Callable,
+                                   table: MuseTableWidget,
+                                   is_new_row: bool):
         dialog_factory: DialogFormFactory = DialogFormFactory(window_title, button_label, table_name,
                                                               table.get_row_data(is_new_row))
         send_data_signal = TupleEmitter(self)
         send_data_signal.signal.connect(operation)
         dialog_form: MuseDialogWidget = dialog_factory(send_data_signal)
+        dialog_form.get_layout().removeWidget(dialog_form.get_confirm_button())
+
+        change_excursion_items_button = MuseButton("Изменить состав экскурсии", dialog_form)
+        change_excursion_items_button.clicked.connect(
+            lambda: self.form_edit_excursion_composition_dialog("Изменить состав экскурсии", self.edit_excursion))
+        dialog_form.get_layout().addWidget(change_excursion_items_button)
+        dialog_form.get_layout().addWidget(dialog_form.get_confirm_button())
         dialog_form.show()
         dialog_form.exec_()
+
+    def form_edit_excursion_composition_dialog(self, window_title: str, operation: Callable):
+        send_data_signal = TupleEmitter(self)
+        send_data_signal.signal.connect(operation)
+        find_dialog_form = EditExcursionCompositionDialog(QSize(800, 800),
+                                                          self.excursionTable.get_id(self.excursionTable.currentRow()),
+                                                          {"Номер зала": MuseTableWidget.ItemType.varchar,
+                                                           "Площадь": MuseTableWidget.ItemType.varchar,
+                                                           "Высота": MuseTableWidget.ItemType.varchar,
+                                                           "Местоположение": MuseTableWidget.ItemType.varchar}
+                                                          , send_data_signal)
+        find_dialog_form.setWindowTitle(window_title)
+        find_dialog_form.setModal(True)
+        find_dialog_form.exec_()
 
     def add_exhibition(self, dialog_output: tuple[str]):
         for i in range(self.exhibitionTable.columnCount()):
             self.exhibitionTable.setItem(self.exhibitionTable.rowCount() - 1, i, QTableWidgetItem(dialog_output[i]))
 
     def edit_exhibition(self, dialog_output: tuple[str]):
-        for i in range(self.exhibitionTable.columnCount()):
-            self.exhibitionTable.setItem(self.exhibitionTable.currentRow(), i, QTableWidgetItem(dialog_output[i]))
+        pass
 
     def add_excursion(self, dialog_output: tuple[str]):
-        for i in range(self.excursionTable.columnCount()):
-            self.excursionTable.setItem(self.excursionTable.rowCount() - 1, i, QTableWidgetItem(dialog_output[i]))
+        ManagerRepository().add_excursion(dialog_output[0], dialog_output[1], dialog_output[2], dialog_output[3])
+        self.update_excursion_table()
 
     def edit_excursion(self, dialog_output: tuple[str]):
-        for i in range(self.excursionTable.columnCount()):
-            self.excursionTable.setItem(self.excursionTable.currentRow(), i, QTableWidgetItem(dialog_output[i]))
+        row_data = self.excursionTable.get_row_data()
 
-    def open_calendar(self):
-        Form = QDialog(None)
-        Form.setModal(True)
-        ui = Ui_Form()
-        ui.setupUi(Form)
-        Form.show()
-        Form.exec_()
+        attributes = [(dialog_output[i], row_data[i][1]) for i in range(len(row_data))]
+        ManagerRepository().edit_excursion(attributes,
+                                           excursion_id=self.excursionTable.get_id(self.excursionTable.currentRow()))
+        self.update_excursion_table()
+
+    def remove_excursion(self):
+        ManagerRepository().remove_excursion(self.excursionTable.get_id(self.excursionTable.currentRow()))
+        self.update_excursion_table()
+
+    def find_excursions(self, dialog_output: tuple[str]):
+        self.excursionTable.set_filters(dialog_output)
+        self.update_excursion_table(dialog_output)
+
+    def update_tables(self):
+        self.update_exhibition_table()
+        self.update_excursion_table()
+
+    def update_exhibition_table(self, filters=None, orders=None):
+        self.exhibitionTable.blockSignals(True)
+        self.exhibitionTable.setRowCount(0)
+        self.exhibitionTable.clear_ids()
+
+        exhibitions = ManagerRepository().get_exhibitions(self.__user_data[0])
+        print(exhibitions)
+        for exhibition in exhibitions:
+            self.exhibitionTable.insertRow(self.exhibitionTable.rowCount())
+            self.exhibitionTable.add_id(exhibition[0])
+            self.exhibitionTable.set_row(exhibition[1:])
+        # employees = AdminRepository().find_employees(sender_phone_number=self.__user_data[EmployeeData.phoneNumber],
+        #                                              attributes=filters, orders=orders)
+        # for employee in employees:
+        #     self.employeeTable.insertRow(self.employeeTable.rowCount())
+        #     self.employeeTable.add_id(employee[0])
+        #     self.employeeTable.set_row(employee[1:])
+        # self.employeeTable.set_attribute_values("Должность", AdminRepository().get_employees_positions())
+        self.exhibitionTable.blockSignals(False)
+        self.__focus_change([],
+                            [self.editExhibitionButton, self.addExhibitionTableAction,
+                             self.deleteExhibitionTableAction])
+
+    def update_excursion_table(self, filters=None, orders=None):
+        self.excursionTable.blockSignals(True)
+        self.excursionTable.setRowCount(0)
+        self.excursionTable.clear_ids()
+        excursions = ManagerRepository().find_excursions(filters=filters)
+        for excursion in excursions:
+            self.excursionTable.insertRow(self.excursionTable.rowCount())
+            self.excursionTable.add_id(excursion[0])
+            self.excursionTable.set_row(excursion[1:])
+        self.excursionTable.set_attribute_values("Назначенный экскурсовод", ManagerRepository().get_guides())
+        self.excursionTable.blockSignals(False)
+        self.__focus_change([], [self.editExcursionButton, self.findExcursionAction, self.addExcursionAction,
+                                 self.removeExcursionAction])
+
+    def form_find_dialog(self, window_title: str, operation: Callable, table: MuseTableWidget):
+        send_data_signal = TupleEmitter(self)
+        send_data_signal.signal.connect(operation)
+        find_dialog_form = MuseFindDialog(QSize(800, 600), table.get_attributes(), send_data_signal)
+        find_dialog_form.setWindowTitle(window_title)
+        find_dialog_form.setModal(True)
+        find_dialog_form.exec_()

@@ -42,7 +42,7 @@ class AbstractRepository(ABC):
         command_string += " order by "
         for name, is_ascending in attributes:
             order_type: str = "asc" if is_ascending is True else "desc"
-            command_string += f"{function_name} {order_type}, "
+            command_string += f"{function_name}.{name} {order_type}, "
 
         command_string += "\n"
         command_string = command_string.replace(", \n", ";\n")

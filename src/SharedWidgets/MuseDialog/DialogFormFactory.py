@@ -35,6 +35,7 @@ class DialogFormFactory:
                 case MuseTableWidget.ItemType.enumType:
                     input_widget: MuseComboBox = MuseComboBox(QRect(10, 10, 100, 150), parent=dialog_form)
                     if data != "":
+                        print(possible_values)
                         current_text_index = possible_values.index(data)
                         first_value = possible_values[0][:]
                         possible_values[0] = data

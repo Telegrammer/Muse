@@ -1,9 +1,10 @@
 from typing import Callable
 
 from PyQt5.QtCore import QSize
-from PyQt5.QtWidgets import QMainWindow, QAction, QWidget, QDialog
+from PyQt5.QtWidgets import QMainWindow, QAction, QWidget, QDialog, QCheckBox
 
 from src.Emitters import VoidEmitter, TupleEmitter
+from src.SharedWidgets.EmployeeProfile.EmployeeProfile import EmployeeProfilePresenter
 from src.SharedWidgets.MuseDialog.DialogFormFactory import DialogFormFactory
 from src.SharedWidgets.MuseDialog.MuseFindDialogWidget import MuseFindDialog
 from .AdminMainWindowView import AdministratorMainWindowView
@@ -24,6 +25,8 @@ class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
         self.__last_row = []
 
         # Employee
+
+        self.viewProfileInfoAction.triggered.connect(self.open_profile)
 
         self.setVisibleEmployeeTableButton.clicked.connect(
             lambda: self.__set_visible_table(self.adminEmployeeTable, self.selectEmployeeTableAction_)
@@ -106,12 +109,21 @@ class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
             lambda: self.__set_visible_table(self.adminExhibitTable, self.selectExhibitAction)
         )
 
+        self.sortExhibitButton.clicked.connect(self.sort_exhibits)
+
         # quit session
 
         self.__quit_session_signal = parent_signal
         self.quitSessionAction.triggered.connect(
             lambda: self.__quit_session_signal.signal.emit()
         )
+
+    def open_profile(self):
+
+        profile_window = EmployeeProfilePresenter(self.__user_data, self)
+        profile_window.setModal(True)
+        profile_window.show()
+        profile_window.exec_()
 
     @staticmethod
     def __set_visible_table(table: QWidget, action: QAction):
@@ -184,8 +196,16 @@ class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
         self.update_employee_table(dialog_output)
 
     def sort_employees(self):
-        print(self.sortTypeEmployeeButtonGroup.buttons())
-        self.update_employee_table(filters=self.employeeTable.get_filters())
+
+        button_group: list[QWidget] = self.sortTypeEmployeeButtonGroup.buttons()
+        is_ascending: bool = self.empRadioButtonAscending.isChecked()
+        order_filters: list[tuple[str, bool]] = []
+        for i in range(len(button_group)):
+            check_box: QCheckBox = button_group[i]
+            if not check_box.isChecked():
+                continue
+            order_filters.append((check_box.text().replace(" ", ""), is_ascending))
+        self.update_employee_table(filters=self.employeeTable.get_filters(), orders=order_filters)
 
     def edit_exhibit(self, dialog_output: tuple[str]):
         try:
@@ -204,11 +224,22 @@ class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
         self.exhibitTable.set_filters(dialog_output)
         self.update_exhibit_table(dialog_output)
 
+    def sort_exhibits(self):
+
+        button_group: list[QWidget] = self.sortTypeExhibitButtonGroup.buttons()
+        is_ascending: bool = self.exRadioButtonAscending.isChecked()
+        order_filters: list[tuple[str, bool]] = []
+        for i in range(len(button_group)):
+            check_box: QCheckBox = button_group[i]
+            if not check_box.isChecked():
+                continue
+            order_filters.append((check_box.text().replace(" ", ""), is_ascending))
+        self.update_exhibit_table(filters=self.employeeTable.get_filters(), orders=order_filters)
+
     def update_employee_table(self, filters=None, orders=None):
         self.employeeTable.blockSignals(True)
         self.employeeTable.setRowCount(0)
         self.employeeTable.clear_ids()
-        print(self.__user_data[EmployeeData.phoneNumber - 1])
         employees = AdminRepository().find_employees(sender_phone_number=self.__user_data[EmployeeData.phoneNumber],
                                                      attributes=filters, orders=orders)
         for employee in employees:

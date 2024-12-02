@@ -32,7 +32,7 @@ class MainWindowFactory:
 
     def create_manager_window(self):
         quit_session_signal = VoidEmitter(None)
-        return ManagerMainWindow(quit_session_signal), quit_session_signal
+        return ManagerMainWindow(quit_session_signal, self.__user_data), quit_session_signal
 
     def create_admin_window(self):
         quit_session_signal = VoidEmitter(None)
@@ -51,16 +51,20 @@ class LoginScreen(QWidget, LoginScreenView):
 
     def create_main_window(self):
         login: str = self.loginLineEdit.text()
-        status: str = LoginScreenRepository().authenticate_user(login)
+        password: str = self.passwordLineEdit.text()
+        if password is None or password == "":
+            password = "null"
+        status: str = LoginScreenRepository().authenticate_user(login, password)
         if status not in LoginScreenRepository.get_roles():
             return
 
-        user_data: tuple = LoginScreenRepository().authorize_user(status, login)
-        factory: MainWindowFactory = MainWindowFactory(user_data)
+        user_data: list = list(LoginScreenRepository().authorize_user(status, login, password))
+        user_data.append(self.passwordLineEdit.text())
+        factory: MainWindowFactory = MainWindowFactory(tuple(user_data))
         if status == "даритель":
             window, quit_session_signal = factory.create_main_window(status)
         else:
-            window, quit_session_signal = factory.create_main_window(user_data[1])
+            window, quit_session_signal = factory.create_main_window(user_data[2])
 
         self.__handler.add_widget(window, quit_session_signal)
         self.__handler.activation_change(self)

@@ -67,6 +67,8 @@ class MuseTableWidget(QtWidgets.QTableWidget, MuseTableWidgetView):
         self.__last_column = None
         self.__ids = []
         self.__filters = []
+        self.resizeColumnsToContents()
+        self.horizontalHeader().setStretchLastSection(True)
 
     def insertRow(self, row: int):
         QtWidgets.QTableWidget.insertRow(self, row)
