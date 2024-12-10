@@ -5,9 +5,10 @@ from src.Emitters import TupleEmitter
 from src.SharedWidgets.MuseButton import MuseButton
 from src.SharedWidgets.MuseLabel import MuseLabel
 from src.SharedWidgets.MuseLineEdit import MuseLineEdit
+from src.SharedWidgets.MuseDialog.DialogFormFactory import DialogFormFactory
 
 
-class RequestWidgetView(object):
+class ActsWidgetView(object):
 
     def setupUi(self, form: QWidget = None):
         form.setStyleSheet("QMenuBar {\n"
@@ -67,19 +68,17 @@ class RequestWidgetView(object):
 
         self.actionsLayout = QHBoxLayout(form)
 
-        self.acceptRequestButton = MuseButton("Одобрить проведение передачи", form)
-        self.actionsLayout.addWidget(self.acceptRequestButton)
-
-        self.rejectRequestButton = MuseButton("Отказать", form)
-        self.actionsLayout.addWidget(self.rejectRequestButton)
+        self.acceptActButton = MuseButton("Завершить акт", form)
+        self.actionsLayout.addWidget(self.acceptActButton)
 
         self.requestLayout.addLayout(self.actionsLayout)
 
 
-class RequestWidget(QDialog, RequestWidgetView):
+class ActsWidget(QDialog, ActsWidgetView):
 
     def __init__(self,
                  request_id: int,
+                 exhibit_attributes: list[list],
                  parent: QWidget = None,
                  parent_signal: TupleEmitter = TupleEmitter(None)):
         QWidget.__init__(self, parent)
@@ -88,18 +87,29 @@ class RequestWidget(QDialog, RequestWidgetView):
 
         self.__parent_signal = parent_signal
         self.__request_id = request_id
-        self.acceptRequestButton.clicked.connect(lambda: self.send_status('одобрена'))
-        self.rejectRequestButton.clicked.connect(lambda: self.send_status('отклонена'))
+        self.acceptActButton.clicked.connect(self.start_exhibit_insertion)
+        self.__exhibit_attributes = exhibit_attributes
 
-    def send_status(self, status: str):
-        self.__parent_signal.signal.emit((self.__request_id, status))
+    def start_exhibit_insertion(self):
+
+        exhibit_factory = DialogFormFactory("Добавить экспонат", 'Добавить', 'Экспонат', self.__exhibit_attributes)
+        receive_signal = TupleEmitter(None)
+        receive_signal.signal.connect(self.update_status)
+        dialog_form = exhibit_factory(receive_signal)
+        dialog_form.setModal(True)
+        dialog_form.show()
+        dialog_form.exec_()
+
+    def update_status(self, dialog_output: tuple):
+        self.__parent_signal.signal.emit((self.__request_id, 'закрыта', dialog_output))
         self.close()
+
 
 
 if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
-    Dialog = RequestWidget(None)
+    Dialog = ActsWidget(None, [["Название", 0, "Да", []]])
     Dialog.show()
     sys.exit(app.exec_())

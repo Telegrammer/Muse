@@ -44,3 +44,53 @@ class CuratorRepository(AbstractRepository):
         self._cursor.execute(f"select * from findUncheckedRequests()")
         requests = self._cursor.fetchall()
         return requests
+
+    def find_approved_requests(self):
+        self.prepare_command()
+        self._cursor.execute(f"select * from findApprovedRequests()")
+        requests = self._cursor.fetchall()
+        return requests
+
+    def update_request_status(self, request_id: int, new_status: str):
+        self.prepare_command()
+        self._cursor.execute(f"call updateRequestStatus({request_id}, '{new_status}')")
+        self._connection.commit()
+
+    def count_approved_requests(self):
+        self.prepare_command()
+        self._cursor.execute("select * from countApprovedRequests()")
+        count = self._cursor.fetchone()[0]
+        return count
+
+    def add_exhibit(self,
+                    exhibit_name: str,
+                    exhibit_type: str,
+                    hall: str,
+                    description: str,
+                    exhibit_size: str,
+                    creation_year: str,
+                    origin: str):
+        self.prepare_command()
+        if creation_year == '':
+            creation_year = 'null'
+        if origin == '':
+            origin = 'null'
+
+        self._cursor.execute(
+            f"call addExhibit('{exhibit_name}',"
+            f" '{exhibit_type}', {hall},"
+            f" '{description}', '{exhibit_size}',"
+            f" {creation_year}, '{origin}')")
+        self._connection.commit()
+
+    def get_donator_by_request_id(self, request_id: int):
+        self.prepare_command()
+        self._cursor.execute(f"select * from getDonatorByRequestId({request_id})")
+        donator_id = self._cursor.fetchone()[0]
+        return donator_id
+
+    def add_act(self, donator_id: int):
+        self.prepare_command()
+        self._cursor.execute(f"call addAct({donator_id})")
+        self._connection.commit()
+
