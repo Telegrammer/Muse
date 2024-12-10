@@ -99,6 +99,7 @@ class EditExcursionCompositionDialog(MuseFindDialog):
 
     def add_all_to_excursion(self):
         ManagerRepository().add_halls_to_excursion(self.__excursion_id, self.__find_result_table.get_ids())
+        self.__remove_button.setEnabled(True)
         self._send_data()
         self.update_excursion_composition_table()
 
@@ -121,7 +122,7 @@ if __name__ == "__main__":
     import sys
 
     app = QApplication(sys.argv)
-    formDialogWindow = EditExcursionCompositionDialog(QSize(800, 800), 1,
+    formDialogWindow = EditExcursionCompositionDialog(QSize(800, 800), 2,
                                                       {"Номер зала": MuseTableWidget.ItemType.varchar,
                                                        "Площадь": MuseTableWidget.ItemType.varchar,
                                                        "Высота": MuseTableWidget.ItemType.varchar,

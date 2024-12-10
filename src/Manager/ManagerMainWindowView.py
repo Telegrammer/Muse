@@ -291,6 +291,7 @@ class ManagerMainWindowView(object):
         self.horizontalLayout_5.addLayout(self.exhibitionTableEdit)
         self.verticalLayout.addLayout(self.horizontalLayout_5)
         self.openExhibitionCalendarButton = QtWidgets.QPushButton(self.managerExhibitionTableWidget)
+        self.openExhibitionCalendarButton.setHidden(True)
         self.openExhibitionCalendarButton.setMinimumSize(QtCore.QSize(100, 31))
         self.openExhibitionCalendarButton.setMaximumSize(QtCore.QSize(16777215, 31))
         self.openExhibitionCalendarButton.setStyleSheet("QWidget {\n"

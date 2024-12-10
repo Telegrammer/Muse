@@ -28,8 +28,8 @@ class ManagerRepository(AbstractRepository):
         command_string = self.build_filters(command_string, "getExcursions", attributes=filters)
         command_string = self.set_order(command_string, "getExcursions", orders)
         self._cursor.execute(command_string)
-        exhibits = self._cursor.fetchall()
-        return exhibits
+        excursions = self._cursor.fetchall()
+        return excursions
 
     def get_guides(self):
         self.prepare_command()
@@ -101,5 +101,70 @@ class ManagerRepository(AbstractRepository):
     def get_exhibitions(self, employee_id: int, row_range_start: int = -1, row_range_end: int = -1):
         self.prepare_command()
         self._cursor.execute(f"select * from getExhibitions({employee_id}, {row_range_start}, {row_range_end});")
+        exhibitions = self._cursor.fetchall()
+        return exhibitions
+
+    def find_available_exhibits(self, exhibition_id: int, filters: tuple[tuple[str, str]] = None):
+        self.prepare_command()
+        connection_string = f"select * from getAvailableExhibits({exhibition_id})"
+        connection_string = self.build_filters(connection_string, "getAvailableExhibits", filters)
+        self._cursor.execute(connection_string)
+        exhibits = self._cursor.fetchall()
+        return exhibits
+
+    def get_exhibition_composition(self, exhibition_id: int):
+        self.prepare_command()
+        self._cursor.execute(f"select * from getExhibitionComposition({exhibition_id})")
+        exhibits = self._cursor.fetchall()
+        return exhibits
+
+    def add_exhibit_to_exhibition(self, exhibition_id: int, exhibit_id: int):
+        self.prepare_command()
+        self._cursor.execute(f"call addExhibitToExhibition({exhibition_id}, {exhibit_id});")
+        self._connection.commit()
+
+    def add_exhibits_to_exhibitions(self, exhibition_id: int, exhibits: list[int]):
+        self.prepare_command()
+        for exhibit in exhibits:
+            self._cursor.execute(f"call addExhibitToExhibition({exhibition_id}, {exhibit});")
+        self._connection.commit()
+
+    def remove_exhibit_from_exhibition(self, exhibition_id: int, exhibit_id: int):
+        self.prepare_command()
+        self._cursor.execute(f" call removeExhibitFromExhibition({exhibition_id}, {exhibit_id})")
+        self._connection.commit()
+
+    def add_exhibition(self, employee_id: int, name: str, description: str, size: str, start_date: str, end_date: str):
+        self.prepare_command()
+        self._cursor.execute(
+            f" call addExhibition({employee_id}, '{name}', '{description}', {size}, '{start_date}', '{end_date}')")
+        self._connection.commit()
+
+    def remove_exhibition(self, exhibition_id: int):
+        self.prepare_command()
+        self._cursor.execute(
+            f" call removeExhibition({exhibition_id})")
+        self._connection.commit()
+
+    def edit_exhibition(self, exhibition_id: int, exhibition_name: str, description: str, size: str, start_date: str,
+                        end_date: str):
+        self.prepare_command()
+        self._cursor.execute(
+            f"call editExhibition({exhibition_id}, '{exhibition_name}', '{description}', {size}, '{start_date}', '{end_date}')")
+        self._connection.commit()
+
+    def find_exhibitions(self, employee_id: int, row_range_start: int = -1, row_range_end: int = -1,
+                         filters: tuple[tuple[str, str]] = None, orders: tuple[tuple[str, bool]] = None):
+        self.prepare_command()
+        command_string = f"select * from getExhibitions({employee_id}, {row_range_start}, {row_range_end})"
+        command_string = self.build_filters(command_string, "getExhibitions", attributes=filters)
+        command_string = self.set_order(command_string, "getExhibitions", orders)
+        self._cursor.execute(command_string)
+        exhibitions = self._cursor.fetchall()
+        return exhibitions
+
+    def get_exhibition_calendar_info(self):
+        self.prepare_command()
+        self._cursor.execute("select * from getExhibitionCalendarInfo()")
         exhibitions = self._cursor.fetchall()
         return exhibitions

@@ -240,7 +240,7 @@ class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
         self.employeeTable.blockSignals(True)
         self.employeeTable.setRowCount(0)
         self.employeeTable.clear_ids()
-        employees = AdminRepository().find_employees(sender_phone_number=self.__user_data[EmployeeData.phoneNumber],
+        employees = AdminRepository().find_employees(sender_phone_number=self.__user_data[-2],
                                                      attributes=filters, orders=orders)
         for employee in employees:
             self.employeeTable.insertRow(self.employeeTable.rowCount())

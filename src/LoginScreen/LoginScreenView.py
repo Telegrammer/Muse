@@ -50,7 +50,7 @@ class LoginScreenView(object):
         font.setWeight(10)
         self.enterLabel_3.setFont(font)
         self.enterLabel_3.setStyleSheet("QLabel {\n"
-                                        "    font: 87 italic 40pt \"Arial Black\";\n"
+                                        "    font: 87 40pt \"Arial Black\";\n"
                                         "    color: rgb(82, 30, 1);\n"
                                         "}")
         self.enterLabel_3.setAlignment(QtCore.Qt.AlignCenter)
@@ -217,7 +217,7 @@ class LoginScreenView(object):
     def retranslateUi(self, LoginScreen):
         _translate = QtCore.QCoreApplication.translate
         LoginScreen.setWindowTitle(_translate("LoginScreen", "Вход"))
-        self.enterLabel_3.setText(_translate("LoginScreen", "MUSE"))
+        self.enterLabel_3.setText(_translate("LoginScreen", "МУЗЕЙ"))
         self.enterLabel.setText(_translate("LoginScreen", "Вход"))
         self.loginLabel.setText(_translate("LoginScreen", "Логин:"))
         self.passwordLabel.setText(_translate("LoginScreen", "Пароль:"))

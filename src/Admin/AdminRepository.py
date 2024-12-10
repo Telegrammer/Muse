@@ -120,12 +120,13 @@ class AdminRepository(AbstractRepository):
     def find_employees(self, sender_phone_number: str, row_range_start: int = -1, row_range_end: int = -1,
                        attributes: tuple[tuple[str, str]] = None, orders: tuple[tuple[str, bool]] = None):
         self.prepare_command()
+        print(sender_phone_number)
         command_string: str = f"select * from getEmployees('{sender_phone_number}', {row_range_start}, {row_range_end})"
         command_string = self.build_filters(command_string, "getEmployees", attributes=attributes)
         command_string = self.set_order(command_string, "getEmployees", orders)
         self._cursor.execute(command_string)
         employees = self._cursor.fetchall()
-
+        print(employees)
         return employees
 
     def find_exhibits(self, row_range_start: int = -1, row_range_end: int = -1,

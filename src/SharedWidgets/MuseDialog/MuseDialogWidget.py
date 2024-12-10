@@ -2,9 +2,10 @@ from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QDialog, QPushButton, QVBoxLayout
 
 from src.SharedWidgets.MuseDataSource import MuseDataSource
-from ..MuseButton import MuseButton
-from ...Emitters import TupleEmitter
-
+from src.SharedWidgets.MuseButton import MuseButton
+from src.Emitters import TupleEmitter
+import sys
+from PyQt5 import QtCore, QtWidgets
 
 class MuseDialogView(object):
 
@@ -55,9 +56,13 @@ class MuseDialog(QDialog, MuseDialogView):
         self._layout: QVBoxLayout = None
 
     def _send_data(self):
-        print(tuple(data_source.get_data() for data_source in self._data_sources))
+        print(self._data_transfer)
         self._data_transfer.signal.emit(tuple(data_source.get_data() for data_source in self._data_sources))
         self.close()
+
+    def remove_data_source(self, index: int):
+        self._data_sources[index].setHidden(True)
+        self._data_sources.pop(index)
 
     def get_confirm_button(self) -> QPushButton:
         return self._confirm_button
@@ -70,3 +75,14 @@ class MuseDialog(QDialog, MuseDialogView):
 
     def add_data_source(self, data_source: MuseDataSource):
         self._data_sources.append(data_source)
+
+
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+
+    w = MuseDialog(QSize(800, 600), TupleEmitter())
+
+    w.show()
+    status = app.exec_()
+    sys.exit(status)
