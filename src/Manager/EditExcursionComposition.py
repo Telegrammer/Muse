@@ -60,7 +60,6 @@ class EditExcursionCompositionDialog(MuseFindDialog):
         self.__add_all_button.setEnabled(False)
 
     def _send_data(self):
-        self.__find_result_table.setSortingEnabled(False)
         self.__find_result_table.setRowCount(0)
         self.__find_result_table.clear_ids()
         data_results = list(data_source.get_data() for data_source in self._data_sources)
@@ -75,14 +74,13 @@ class EditExcursionCompositionDialog(MuseFindDialog):
             self.__find_result_table.set_row(hall)
             self.__find_result_table.add_id(int(hall[0]))
 
-        self.__find_result_table.setSortingEnabled(True)
         self.__find_result_label.setHidden(False)
         self.__find_result_table.setHidden(False)
         self.__add_all_button.setEnabled(True)
         self.__add_selected_button.setEnabled(False)
+        self.__find_result_table.setSortingEnabled(False)
 
     def update_excursion_composition_table(self):
-        self.__excursion_composition_table.setSortingEnabled(False)
         self.__excursion_composition_table.blockSignals(True)
         self.__excursion_composition_table.setRowCount(0)
         self.__excursion_composition_table.clear_ids()
@@ -92,10 +90,10 @@ class EditExcursionCompositionDialog(MuseFindDialog):
             self.__excursion_composition_table.set_row(hall)
             self.__excursion_composition_table.add_id(int(hall[0]))
 
-        self.__excursion_composition_table.setSortingEnabled(True)
         self.__excursion_composition_table.blockSignals(False)
         if len(halls) == 0:
             self.__remove_button.setEnabled(False)
+        self.__excursion_composition_table.setSortingEnabled(False)
 
     def add_all_to_excursion(self):
         ManagerRepository().add_halls_to_excursion(self.__excursion_id, self.__find_result_table.get_ids())

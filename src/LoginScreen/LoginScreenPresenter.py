@@ -1,18 +1,20 @@
 from typing import Callable
 
 import psycopg2
-from PyQt5.QtWidgets import QMainWindow, QMessageBox
+from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QWidget
 
 from src.Admin.AdminMainWindowPresenter import AdminMainWindow
 from src.Curator.CuratorMainWindowPresenter import CuratorMainWindow
 from src.DataBase.GLOBALS import generate_hash
 from src.Donator.DonatorMainWindowPresenter import DonatorMainWindow
-from src.Emitters import VoidEmitter
-from src.Handler import HideWidgetsHandler
+from src.Emitters import TupleEmitter, VoidEmitter, StringEmitter
+from src.Handler import HideWidgetsHandler, AlertMessageBox
 from src.Manager.ManagerMainWindowPresenter import ManagerMainWindow
+from src.SharedWidgets.Profile.DonatorProfile import DonatorProfilePresenter
 from .LoginScreenRepository import LoginScreenRepository
 from .LoginScreenView import LoginScreenView
+from .RoleDecisionWidget import RoleDecisionWidget
 
 __all__ = ["LoginScreen"]
 
@@ -27,7 +29,8 @@ class MainWindowFactory:
             "администратор": self.create_admin_window(),
             "куратор": self.create_curator_window(),
             "даритель": self.create_donator_window(),
-            "смотритель": self.pass_func()
+            "смотритель": self.pass_func(),
+            "экскурсовод": self.pass_func()
         }
 
     def pass_func(self):
@@ -62,43 +65,54 @@ class LoginScreen(QWidget, LoginScreenView):
 
         self.logInButton.clicked.connect(self.create_main_window)
         self.__handler = HideWidgetsHandler(self)
+        self.signInButton.clicked.connect(self.start_registrate)
+        self.__login = ''
+        self.__password = None
+
+    def start_registrate(self):
+        receive_signal = TupleEmitter(None)
+        receive_signal.signal.connect(self.display_registration_data)
+        registration_window = DonatorProfilePresenter(["", "", "", "", ""], parent_signal=receive_signal)
+        registration_window.changeButton.setText("Зарегестрироваться")
+        registration_window.setModal(True)
+        registration_window.show()
+        registration_window.exec_()
+
+    def display_registration_data(self, dialog_output):
+        self.loginLineEdit.setText(dialog_output[0])
+        self.passwordLineEdit.setText(dialog_output[1])
 
     def create_main_window(self):
-        login: str = self.loginLineEdit.text()
-        password_text: str = self.passwordLineEdit.text()
-        if password_text is None or password_text == "":
-            password = "null"
-        else:
-            password = psycopg2.Binary(generate_hash(password_text))
-        status: str = LoginScreenRepository().authenticate_user(login, password)
-        if status not in LoginScreenRepository.get_roles():
-            error_window = QMessageBox()
-            error_window.setWindowTitle("Ошибка аутентификации")
-            error_window.setText('Неверный логин или пароль')
-            error_window.setModal(True)
-            error_window.show()
-            error_window.exec_()
+        self.__login: str = self.loginLineEdit.text()
+        self.__password: str = "null"
+        password_text = self.passwordLineEdit.text()
+        if password_text != "":
+            self.__password = psycopg2.Binary(generate_hash(password_text))
+
+        status: str = LoginScreenRepository().authenticate_user(self.__login, self.__password)
+        if status == 'Найдено несколько пользователей':
+            role_signal = StringEmitter(self)
+            role_signal.signal.connect(self.start_session)
+            dialog_window = RoleDecisionWidget(None, role_signal)
+            dialog_window.exec_()
             return
 
-        user_data: list = list(LoginScreenRepository().authorize_user(status, login, password))
+        if status not in LoginScreenRepository.get_roles():
+            AlertMessageBox(None, "Ошибка аутентификации", 'Неверный логин или пароль')
+            return
+        self.start_session(status)
+
+    def start_session(self, status: str):
+        user_data: list = list(LoginScreenRepository().authorize_user(status, self.__login, self.__password))
         user_data.append(self.passwordLineEdit.text())
-        print(user_data)
         factory: MainWindowFactory = MainWindowFactory(tuple(user_data))
         if status == "даритель":
             window, quit_session_signal = factory.create_main_window(status)
             self.__handler.add_widget(window, quit_session_signal)
             self.__handler.activation_change(self)
             return
-        if user_data[2] != "смотритель":
+        if user_data[2] in ["куратор", "менеджер", "администратор"]:
             window, quit_session_signal = factory.create_main_window(user_data[2])
             self.__handler.add_widget(window, quit_session_signal)
             self.__handler.activation_change(self)
             return
-
-        error_window = QMessageBox()
-        error_window.setWindowTitle("Ошибка аутентификации")
-        error_window.setText('Неверный логин или пароль')
-        error_window.setModal(True)
-        error_window.show()
-        error_window.exec_()
-

@@ -1,5 +1,6 @@
 from PyQt5.QtCore import QSize, QRect, QDate
 from PyQt5.QtWidgets import QVBoxLayout, QWidget, QTableWidget, QPushButton, QHBoxLayout
+from PyQt5.QtGui import QIntValidator
 
 from src.Emitters import TupleEmitter
 from .MuseDialogWidget import MuseDialog

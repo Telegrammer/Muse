@@ -9,6 +9,7 @@
 
 __all__ = ["MuseTableWidget"]
 
+import datetime
 import sys
 from enum import IntEnum
 
@@ -47,6 +48,7 @@ class MuseTableWidgetView(object):
             item: QtWidgets.QTableWidgetItem = QtWidgets.QTableWidgetItem()
             item.setText(header_names[i])
             table_widget.setHorizontalHeaderItem(i, item)
+        table_widget.setSortingEnabled(False)
 
 
 class MuseTableWidget(QtWidgets.QTableWidget, MuseTableWidgetView):
@@ -101,7 +103,10 @@ class MuseTableWidget(QtWidgets.QTableWidget, MuseTableWidgetView):
 
     def set_row(self, row_data: tuple):
         for i in range(self.columnCount()):
-            self.setItem(self.rowCount() - 1, i, QtWidgets.QTableWidgetItem(row_data[i]))
+            if (type(row_data[i])) == datetime.date:
+                self.setItem(self.rowCount() - 1, i, QtWidgets.QTableWidgetItem(str(row_data[i])))
+            else:
+                self.setItem(self.rowCount() - 1, i, QtWidgets.QTableWidgetItem(row_data[i]))
 
     def insert_attribute(self, attribute_name: str, attribute_type: ItemType, column: int = None):
 

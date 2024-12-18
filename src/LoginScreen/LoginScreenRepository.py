@@ -11,13 +11,12 @@ class LoginScreenRepository(AbstractRepository):
         self._connection = DataBaseConnectionHelper().connect()
         self._cursor = self._connection.cursor()
 
-    def authenticate_user(self, login: str, password="null") -> str:
+    def authenticate_user(self, login: str, password: str = "null") -> str:
         self.prepare_command()
         self._cursor.execute(f"select authenticateUser('{login}', {password})")
-        status = self._cursor.fetchone()[0]
-        return status
+        return self._cursor.fetchone()[0]
 
-    def authorize_user(self, role: str, login: str, password="null") -> tuple:
+    def authorize_user(self, role: str, login: str, password: str = "null") -> tuple:
         self.prepare_command()
         roles_commands: dict[str, str] = {
             "даритель": f"select * from findDonatorWithLoginData('{login}', {password});",

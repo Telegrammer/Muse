@@ -138,7 +138,7 @@ class AdministratorMainWindowView(object):
         self.employeeTable = MuseTableWidget({"Фио": MuseTableWidget.ItemType.varchar,
                                               "Должность": MuseTableWidget.ItemType.enumType,
                                               "Дата рождения": MuseTableWidget.ItemType.dateType,
-                                              "Номер телефона": MuseTableWidget.ItemType.varchar,
+                                              "Номер телефона": MuseTableWidget.ItemType.integer,
                                               }, parent=self.adminEmployeeTable)
 
         self.employeeTable.horizontalHeader().setCascadingSectionResizes(False)

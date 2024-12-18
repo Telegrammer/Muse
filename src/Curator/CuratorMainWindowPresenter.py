@@ -1,12 +1,15 @@
 from typing import Callable
 
-from PyQt5.QtWidgets import QMainWindow, QScrollBar
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtCore import QSize
+from PyQt5.QtWidgets import QMainWindow, QScrollBar, QWidget, QShortcut
+from PyQt5.QtGui import QKeySequence
 
 from src.Curator.CuratorRepository import CuratorRepository
 from src.Curator.Requests.CuratorFormDialogFactory import CuratorFormDialogFactory
 from src.Emitters import TupleEmitter
 from src.Emitters import VoidEmitter
+from src.SharedWidgets.MuseDialog.MuseFindDialogWidget import MuseFindDialog
+from src.SharedWidgets.Profile.EmployeeProfile import EmployeeProfilePresenter
 from .CuratorWindowView import CuratorMainWindowView
 
 
@@ -20,6 +23,9 @@ class CuratorMainWindow(QMainWindow, CuratorMainWindowView):
         self.__exhibitsScrollBar: QScrollBar = self.exhibitTable.verticalScrollBar()
         self.update_tables()
         self.__actsScrollBar.valueChanged.connect(self.set_exhibit_table_scroll_bar)
+
+        self.update_shortcut = QShortcut(QKeySequence("f5"), self)
+        self.update_shortcut.activated.connect(self.update_tables)
         self.viewRequestsForDonationButton.clicked.connect(
             lambda: self.open_requests('unchecked', self.update_request)
         )
@@ -32,6 +38,23 @@ class CuratorMainWindow(QMainWindow, CuratorMainWindowView):
         self.quitSessionAction.triggered.connect(
             lambda: self.__quit_session_signal.signal.emit()
         )
+
+        self.showProfileAction.triggered.connect(self.open_profile)
+        self.findActsButton.clicked.connect(
+            lambda: self.form_find_dialog('Найти акты дарения', self.find_acts,
+                                          self.actsTable.get_attributes() | self.exhibitTable.get_attributes())
+        )
+
+    def find_acts(self, dialog_output: tuple[str]):
+        self.update_tables(dialog_output)
+
+    def form_find_dialog(self, window_title: str, operation: Callable, attributes: dict):
+        send_data_signal = TupleEmitter(self)
+        send_data_signal.signal.connect(operation)
+        find_dialog_form = MuseFindDialog(QSize(800, 600), attributes, send_data_signal)
+        find_dialog_form.setWindowTitle(window_title)
+        find_dialog_form.setModal(True)
+        find_dialog_form.exec_()
 
     def add_exhibit(self, dialog_output):
         exhibit_name, exhibit_type, hall, description, size, creation_year, origin = dialog_output[2]
@@ -92,13 +115,13 @@ class CuratorMainWindow(QMainWindow, CuratorMainWindowView):
         if approved_count == 0:
             self.approvedRequestsLabel.setHidden(True)
 
-    def update_tables(self):
+    def update_tables(self, filters=None):
         self.update_requests_count()
         self.exhibitTable.blockSignals(True)
         self.actsTable.blockSignals(True)
         self.exhibitTable.setRowCount(0)
         self.actsTable.setRowCount(0)
-        donation_acts = CuratorRepository().get_donation_acts()
+        donation_acts = CuratorRepository().find_donation_acts(filters)
         for act in donation_acts:
             self.actsTable.insertRow(self.actsTable.rowCount())
             self.actsTable.set_row(act[:3])
@@ -109,3 +132,10 @@ class CuratorMainWindow(QMainWindow, CuratorMainWindowView):
         self.exhibitTable.blockSignals(False)
         self.actsTable.blockSignals(False)
         self.__actsScrollBar.setSliderPosition(self.__actsScrollBar.maximum())
+
+    def open_profile(self):
+
+        profile_window = EmployeeProfilePresenter(self.__user_data, self)
+        profile_window.setModal(True)
+        profile_window.show()
+        profile_window.exec_()

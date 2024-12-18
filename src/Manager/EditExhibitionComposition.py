@@ -1,8 +1,9 @@
 from PyQt5.QtCore import QSize
-from PyQt5.QtWidgets import QApplication, QHBoxLayout, QMessageBox
+from PyQt5.QtWidgets import QApplication, QHBoxLayout
 from psycopg2.errors import RaiseException
 
 from src.Emitters import TupleEmitter
+from src.Handler import AlertMessageBox
 from src.Manager.ManagerRepository import ManagerRepository
 from src.SharedWidgets.MuseButton import MuseButton
 from src.SharedWidgets.MuseDialog.MuseFindDialogWidget import MuseFindDialog
@@ -99,34 +100,24 @@ class EditExhibitionCompositionDialog(MuseFindDialog):
             self.__remove_button.setEnabled(False)
 
     def add_all_to_exhibition(self):
-        try:
-            ManagerRepository().add_exhibits_to_exhibitions(self.__exhibition_id, self.__find_result_table.get_ids())
-            self.__remove_button.setEnabled(True)
-        except RaiseException:
-            pass
+        ManagerRepository().add_exhibits_to_exhibitions(self.__exhibition_id, self.__find_result_table.get_ids())
+
         self.update_exhibition_composition_table()
         self._send_data()
+        self.__remove_button.setEnabled(True)
 
     def add_exhibit_to_exhibition(self):
-        try:
-            ManagerRepository().add_exhibit_to_exhibition(self.__exhibition_id, self.__find_result_table.get_id(
-                self.__find_result_table.currentRow()))
-        except RaiseException as e:
-            error_window = QMessageBox()
-            error_window.setWindowTitle("Ошибка!")
-            error_window.setText(repr(e))
-            error_window.setModal(True)
-            error_window.show()
-            error_window.exec_()
+        ManagerRepository().add_exhibit_to_exhibition(self.__exhibition_id, self.__find_result_table.get_id(
+            self.__find_result_table.currentRow()))
 
         self._send_data()
         self.update_exhibition_composition_table()
+        self.__remove_button.setEnabled(True)
 
     def remove_exhibit_from_exhibition(self):
         ManagerRepository().remove_exhibit_from_exhibition(self.__exhibition_id,
                                                            self.__exhibition_composition_table.get_id(
                                                                self.__exhibition_composition_table.currentRow()))
-
         self._send_data()
         self.update_exhibition_composition_table()
 
@@ -135,7 +126,7 @@ if __name__ == "__main__":
     import sys
 
     app = QApplication(sys.argv)
-    formDialogWindow = EditExhibitionCompositionDialog(QSize(1000, 800), 9,
+    formDialogWindow = EditExhibitionCompositionDialog(QSize(1000, 800), 1,
                                                        {"Наименование": MuseTableWidget.ItemType.varchar,
                                                         "Вид": MuseTableWidget.ItemType.enumType,
                                                         "Номер зала": MuseTableWidget.ItemType.enumType,

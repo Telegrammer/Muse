@@ -1,10 +1,11 @@
 from typing import Callable
 
 from PyQt5.QtCore import QSize
-from PyQt5.QtWidgets import QMainWindow, QAction, QWidget, QDialog, QCheckBox
+from PyQt5.QtGui import QKeySequence
+from PyQt5.QtWidgets import QMainWindow, QAction, QWidget, QDialog, QCheckBox, QShortcut
 
 from src.Emitters import VoidEmitter, TupleEmitter
-from src.SharedWidgets.EmployeeProfile.EmployeeProfile import EmployeeProfilePresenter
+from src.SharedWidgets.Profile.EmployeeProfile import EmployeeProfilePresenter
 from src.SharedWidgets.MuseDialog.DialogFormFactory import DialogFormFactory
 from src.SharedWidgets.MuseDialog.MuseFindDialogWidget import MuseFindDialog
 from .AdminMainWindowView import AdministratorMainWindowView
@@ -23,6 +24,9 @@ class AdminMainWindow(QMainWindow, AdministratorMainWindowView):
         self.__user_data = user_data
         self.update_tables()
         self.__last_row = []
+
+        self.update_shortcut = QShortcut(QKeySequence("f5"), self)
+        self.update_shortcut.activated.connect(self.update_tables)
 
         # Employee
 

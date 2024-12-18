@@ -48,7 +48,7 @@ background-color: #fac983; /* rot */
 QWidget{background-color: rgb(255, 253, 223);}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_4">
+   <layout class="QVBoxLayout" name="verticalLayout_5">
     <item>
      <widget class="QScrollArea" name="scrollArea">
       <property name="styleSheet">
@@ -1018,6 +1018,342 @@ QPushButton:hover:!pressed {
               </layout>
              </item>
             </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <item>
+              <widget class="QLabel" name="allExhibitionLabel">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Arial Black</family>
+                 <pointsize>12</pointsize>
+                 <weight>10</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLabel {
+	font: 87 12pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}</string>
+               </property>
+               <property name="text">
+                <string>Все выставки</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="margin">
+                <number>0</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="setVisibleAllExhibitionTableButton">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">
+
+QWidget {
+	border 1px solid;
+	border-radius: 20px;
+	background-color: transparent;
+	
+}
+
+QPushButton {
+	border-radius: 20px;
+    border-style: outset;
+
+}
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0.7 #faea99, stop: 1 #521e01
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #521e01
+        );
+    }</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../components/inactive drop button.png</normaloff>../components/inactive drop button.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>40</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QWidget" name="managerExhibitionTableWidget_2" native="true">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>236</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QMenuBar {
+background-color: rgb(250, 234, 153);
+font: 87 10pt &quot;Arial Black&quot;;
+padding-left: 3px;
+	color: rgb(82, 30, 1);
+}
+
+QMenuBar::item {
+spacing: 3px; /* spacing between menu bar items */
+padding: 1px 4px;
+background: transparent;
+border-radius: 4px;
+background-color: rgb(250, 234, 153);
+}
+
+QMenuBar::item:selected { /* when selected using mouse or keyboard */
+background: #fac983;
+}
+
+QMenu {
+background-color: rgb(149, 166, 174); 
+	font: 75 8pt &quot;Arial Black&quot;;
+}
+
+QMenu::item {
+background-color: transparent;
+}
+
+QMenu::item:selected {
+background-color: #fac983; /* rot */
+}
+QWidget{background-color: rgba(255, 218, 144, 80);
+border-radius: 10px;}</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_9">
+                <item>
+                 <widget class="QTableWidget" name="allExhibitionTable">
+                  <property name="styleSheet">
+                   <string notr="true">
+QTableWidgetItem {
+	font: 8pt &quot;Arial&quot;;
+}
+
+QWidget {background-color: rgb(255, 245, 183);}
+
+QAbstractItemView {
+
+	font: 8pt &quot;Arial Black&quot;;
+}
+
+QAbstractScrollArea {
+	
+	border-radius: 10px;
+}
+
+ QScrollBar::handle:vertical {
+    background: #fac983
+ }
+
+QScrollBar::handle:horizontal {
+    background: #fac983;
+ }
+</string>
+                  </property>
+                  <property name="sortingEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="columnCount">
+                   <number>5</number>
+                  </property>
+                  <attribute name="horizontalHeaderCascadingSectionResizes">
+                   <bool>false</bool>
+                  </attribute>
+                  <attribute name="horizontalHeaderDefaultSectionSize">
+                   <number>115</number>
+                  </attribute>
+                  <attribute name="horizontalHeaderStretchLastSection">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+                   <bool>false</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderStretchLastSection">
+                   <bool>false</bool>
+                  </attribute>
+                  <row>
+                   <property name="text">
+                    <string>1</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>2</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>3</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>4</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>5</string>
+                   </property>
+                  </row>
+                  <column>
+                   <property name="text">
+                    <string>Название</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Описание</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Площадь</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Дата начала</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Дата окончания</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="exhibitionTableEdit_2">
+                  <item>
+                   <spacer name="verticalSpacer_4">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Preferred</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="findAllExhibitionButton">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>31</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>31</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QWidget {
+	background-color: rgb(250, 234, 153);
+	border: 1px solid rgb(250, 201, 131);
+	border-radius: 10px;
+	text-align: center;
+}
+
+QAbstractButton {
+	
+	font: 87 8pt &quot;Arial Black&quot;;
+	color: rgb(82, 30, 1);
+}
+QPushButton:hover:!pressed {
+  border: 2px solid rgb(250, 201, 131);
+}</string>
+                    </property>
+                    <property name="text">
+                     <string>Поиск</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="verticalSpacer_7">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Preferred</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
            </item>
           </layout>
          </widget>

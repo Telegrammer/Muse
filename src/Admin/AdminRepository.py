@@ -72,18 +72,28 @@ class AdminRepository(AbstractRepository):
 
         return exhibit_halls
 
+    @AbstractRepository.handle_database_errors
     def add_employee(self, full_name: str, position: str, birthdate: str, phone_number: str) -> None:
         self.prepare_command()
+
+        full_name = AbstractRepository.turn_into_non_empty_string(full_name)
+        phone_number = AbstractRepository.turn_into_non_empty_string(phone_number)
         self._cursor.execute(
-            f"call addEmployee('{full_name}', '{position}', '{birthdate}', '{phone_number}');")
+            f"call addEmployee({full_name}, '{position}', '{birthdate}', {phone_number});")
         self._connection.commit()
 
+    @AbstractRepository.handle_database_errors
     def edit_employee(self, new_name: str, new_position: str, new_birth_date: str, new_phone: str, employee_id: str):
         self.prepare_command()
+
+        new_name = AbstractRepository.turn_into_non_empty_string(new_name)
+        new_phone = AbstractRepository.turn_into_non_empty_string(new_phone)
+
         self._cursor.execute(
-            f"call editEmployee('{new_name}', '{new_position}', '{new_birth_date}', '{new_phone}', {employee_id});")
+            f"call editEmployee({new_name}, '{new_position}', '{new_birth_date}', {new_phone}, {employee_id});")
         self._connection.commit()
 
+    @AbstractRepository.handle_database_errors
     def remove_employee(self, employee_id: int):
         self.prepare_command()
         self._cursor.execute(
@@ -91,6 +101,7 @@ class AdminRepository(AbstractRepository):
         )
         self._connection.commit()
 
+    @AbstractRepository.handle_database_errors
     def edit_exhibit(self, attributes: list[tuple[str, IntEnum]], exhibit_id: int):
         self.prepare_command()
         command_string: str = "call editExhibit("
@@ -120,13 +131,11 @@ class AdminRepository(AbstractRepository):
     def find_employees(self, sender_phone_number: str, row_range_start: int = -1, row_range_end: int = -1,
                        attributes: tuple[tuple[str, str]] = None, orders: tuple[tuple[str, bool]] = None):
         self.prepare_command()
-        print(sender_phone_number)
         command_string: str = f"select * from getEmployees('{sender_phone_number}', {row_range_start}, {row_range_end})"
         command_string = self.build_filters(command_string, "getEmployees", attributes=attributes)
         command_string = self.set_order(command_string, "getEmployees", orders)
         self._cursor.execute(command_string)
         employees = self._cursor.fetchall()
-        print(employees)
         return employees
 
     def find_exhibits(self, row_range_start: int = -1, row_range_end: int = -1,

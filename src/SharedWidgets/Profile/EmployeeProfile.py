@@ -7,8 +7,9 @@ from PyQt5.QtWidgets import QDialog, QLineEdit, QMessageBox
 from src.DataBase.DataBaseConnectionHelper import DataBaseConnectionHelper
 from src.DataBase.GLOBALS import generate_hash
 from src.Emitters import VoidEmitter
-from src.SharedWidgets.EmployeeProfile.EmployeeProfileView import ProfileWindowView
-
+from src.SharedWidgets.Profile.EmployeeProfileView import ProfileWindowView
+from src.Handler import AlertMessageBox
+from src.AbstractRepository import AbstractRepository
 
 class EmployeeProfilePresenter(QDialog, ProfileWindowView):
     class UserData(IntEnum):
@@ -46,14 +47,10 @@ class EmployeeProfilePresenter(QDialog, ProfileWindowView):
             self.passwordLineEdit.setEchoMode(QLineEdit.Normal)
             self.confirmPasswordLineEdit.setEchoMode(QLineEdit.Normal)
 
+    @AbstractRepository.handle_database_errors
     def change_password(self):
         if self.passwordLineEdit.text() != self.confirmPasswordLineEdit.text():
-            error_window = QMessageBox()
-            error_window.setWindowTitle("Ошибка!")
-            error_window.setText('Пароли не совпадают')
-            error_window.setModal(True)
-            error_window.show()
-            error_window.exec_()
+            AlertMessageBox(None, 'Ошибка!', 'Пароли не совпадают')
         else:
             connection = DataBaseConnectionHelper().connect()
             cursor = connection.cursor()
@@ -64,9 +61,4 @@ class EmployeeProfilePresenter(QDialog, ProfileWindowView):
             cursor.close()
             connection.close()
 
-            error_window = QMessageBox()
-            error_window.setWindowTitle("Успешно")
-            error_window.setText('Пароль изменен')
-            error_window.setModal(True)
-            error_window.show()
-            error_window.exec_()
+            AlertMessageBox(None, 'Успешно', 'Пароль изменен')

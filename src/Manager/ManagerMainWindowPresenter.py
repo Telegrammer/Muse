@@ -1,13 +1,15 @@
 from typing import Callable
 
 from PyQt5.QtCore import QSize
+from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QMainWindow
-from PyQt5.QtWidgets import QWidget, QAction
+from PyQt5.QtWidgets import QWidget, QAction, QShortcut
 
 from src.Emitters import VoidEmitter, TupleEmitter
-from src.SharedWidgets.EmployeeProfile.EmployeeProfile import EmployeeProfilePresenter
 from src.SharedWidgets.MuseDialog.DialogFormFactory import DialogFormFactory
 from src.SharedWidgets.MuseDialog.MuseFindDialogWidget import MuseFindDialog
+from src.SharedWidgets.Profile.EmployeeProfile import EmployeeProfilePresenter
+from src.SharedWidgets.Statistic.StatisticWidget import StatisticWidget
 from .EditExcursionComposition import EditExcursionCompositionDialog
 from .EditExhibitionComposition import EditExhibitionCompositionDialog
 from .ManagerMainWindowView import ManagerMainWindowView
@@ -27,6 +29,9 @@ class ManagerMainWindow(QMainWindow, ManagerMainWindowView):
         self.setupUi(self)
         self.update_tables()
 
+        self.update_shortcut = QShortcut(QKeySequence("f5"), self)
+        self.update_shortcut.activated.connect(self.update_tables)
+
         self.setVisibleExhibitionTableButton.clicked.connect(
             lambda: self.__set_visible_table(self.managerExhibitionTableWidget, self.selectExhibitionTableAction)
         )
@@ -38,6 +43,10 @@ class ManagerMainWindow(QMainWindow, ManagerMainWindowView):
         )
         self.selectExcursionTableAction.changed.connect(
             lambda: self.__set_visible_table(self.managerExcursionTableWidget, self.selectExcursionTableAction)
+        )
+
+        self.setVisibleAllExhibitionTableButton.clicked.connect(
+            lambda: self.__set_visible_table(self.managerAllExhibitionTableWidget, QAction(None))
         )
 
         self.exhibitionTable.itemSelectionChanged.connect(
@@ -77,8 +86,9 @@ class ManagerMainWindow(QMainWindow, ManagerMainWindowView):
         )
 
         self.editExhibitionButton.clicked.connect(
-            lambda: self.form_dialog("Изменить информацию о выставке", "Изменить", "Выставка",
-                                     operation=self.edit_exhibition, table=self.exhibitionTable, is_new_row=False)
+            lambda: self.form_edit_exhibition_dialog("Изменить информацию о выставке", "Изменить", "Выставка",
+                                                     operation=self.edit_exhibition, table=self.exhibitionTable,
+                                                     is_new_row=False)
         )
 
         self.deleteExhibitionTableAction.triggered.connect(self.remove_exhibition)
@@ -116,12 +126,25 @@ class ManagerMainWindow(QMainWindow, ManagerMainWindowView):
             lambda: self.form_find_dialog("Найти экскурсию", operation=self.find_excursions, table=self.excursionTable)
         )
 
+        self.findAllExhibitionButton.clicked.connect(
+            lambda: self.form_find_dialog("Найти выставку", operation=self.find_other_exhibitions,
+                                          table=self.allExhibitionTable)
+        )
+
         self.__quit_session_signal = parent_signal
         self.quitSessionAction.triggered.connect(
             lambda: self.__quit_session_signal.signal.emit()
         )
 
         self.viewProfileInfoAction.triggered.connect(self.open_profile)
+        self.openStatisticButton.clicked.connect(self.open_statistics)
+
+    def open_statistics(self):
+        exhibits = ManagerRepository().identify_popular_exhibits()
+        exhibits = [(exhibit[-2], exhibit[-1]) for exhibit in exhibits]
+        statistics_window = StatisticWidget(exhibits)
+        statistics_window.show()
+        statistics_window.exec_()
 
     def open_profile(self):
 
@@ -212,7 +235,7 @@ class ManagerMainWindow(QMainWindow, ManagerMainWindowView):
 
         change_exhibition_items_button = MuseButton("Изменить состав выставки", dialog_form)
         change_exhibition_items_button.clicked.connect(
-            lambda: self.form_edit_excursion_composition_dialog("Изменить состав выставки", self.edit_exhibition))
+            lambda: self.form_edit_exhibition_composition_dialog("Изменить состав выставки", self.edit_exhibition))
         dialog_form.get_layout().addWidget(change_exhibition_items_button)
         dialog_form.get_layout().addWidget(dialog_form.get_confirm_button())
         dialog_form.show()
@@ -261,6 +284,10 @@ class ManagerMainWindow(QMainWindow, ManagerMainWindowView):
         self.exhibitionTable.set_filters(dialog_output)
         self.update_exhibition_table(dialog_output)
 
+    def find_other_exhibitions(self, dialog_output: tuple[str]):
+        self.allExhibitionTable.set_filters(dialog_output)
+        self.update_all_exhibitions_table(dialog_output)
+
     def add_excursion(self, dialog_output: tuple[str]):
         ManagerRepository().add_excursion(dialog_output[0], dialog_output[1], dialog_output[2], dialog_output[3])
         self.update_excursion_table()
@@ -284,6 +311,20 @@ class ManagerMainWindow(QMainWindow, ManagerMainWindowView):
     def update_tables(self):
         self.update_exhibition_table()
         self.update_excursion_table()
+        self.update_all_exhibitions_table()
+
+    def update_all_exhibitions_table(self, filters=None, orders=None):
+        self.allExhibitionTable.blockSignals(False)
+        self.allExhibitionTable.setRowCount(0)
+        self.allExhibitionTable.clear_ids()
+
+        exhibitions = ManagerRepository().find_all_exhibitions(self.__user_data[0], filters=filters)
+        for exhibition in exhibitions:
+            self.allExhibitionTable.insertRow(self.allExhibitionTable.rowCount())
+            self.allExhibitionTable.add_id(exhibition[0])
+            self.allExhibitionTable.set_row(exhibition[1:])
+
+        self.allExhibitionTable.blockSignals(False)
 
     def update_exhibition_table(self, filters=None, orders=None):
         self.exhibitionTable.blockSignals(True)

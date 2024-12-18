@@ -130,7 +130,7 @@ class CuratorMainWindowView(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.actsTable = MuseTableWidget({"Даритель": MuseTableWidget.ItemType.enumType,
                                           "Электронная почта": MuseTableWidget.ItemType.varchar,
-                                          "ДатаПередачи": MuseTableWidget.ItemType.dateType}, self.tablesForDonationActsView)
+                                          "Дата передачи": MuseTableWidget.ItemType.dateType}, self.tablesForDonationActsView)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         self.actsTable.setSizePolicy(sizePolicy)
         self.actsTable.setMinimumSize(QtCore.QSize(330, 600))
@@ -243,6 +243,8 @@ class CuratorMainWindowView(object):
         self.approvedRequestsLabel.setObjectName("uncheckedRequestsLabel")
 
         self.horizontalLayout_2.addWidget(self.viewApprovedRequestsWidget)
+        self.findActsButton = MuseButton('Поиск', MainWindow)
+        self.horizontalLayout_2.addWidget(self.findActsButton)
 
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem2)

@@ -1,11 +1,13 @@
+import sys
+
+from PyQt5 import QtWidgets
 from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QDialog, QPushButton, QVBoxLayout
 
-from src.SharedWidgets.MuseDataSource import MuseDataSource
-from src.SharedWidgets.MuseButton import MuseButton
 from src.Emitters import TupleEmitter
-import sys
-from PyQt5 import QtCore, QtWidgets
+from src.SharedWidgets.MuseButton import MuseButton
+from src.SharedWidgets.MuseDataSource import MuseDataSource
+
 
 class MuseDialogView(object):
 
@@ -75,7 +77,6 @@ class MuseDialog(QDialog, MuseDialogView):
 
     def add_data_source(self, data_source: MuseDataSource):
         self._data_sources.append(data_source)
-
 
 
 if __name__ == "__main__":

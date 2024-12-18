@@ -27,11 +27,11 @@ class MuseCalendarWidgetView(object):
                                "}")
 
 
-class MuseCalendarWidget(QCalendarWidget, MuseDataSource):
+class MuseCalendarWidget(QCalendarWidget, MuseDataSource, MuseCalendarWidgetView):
 
     def __init__(self, parent: QObject = None, parent_signal: StringEmitter = StringEmitter(None)):
         QCalendarWidget.__init__(self, parent)
-
+        self.setup_ui(self)
         self.__parent_signal = parent_signal
 
     def get_data(self):

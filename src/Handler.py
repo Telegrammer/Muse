@@ -1,6 +1,16 @@
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QMessageBox
 
 from .Emitters import VoidEmitter
+
+
+class AlertMessageBox(QMessageBox):
+
+    def __init__(self, parent=None, title: str = 'Информация', body: str = ''):
+        QMessageBox.__init__(self, parent)
+        self.setWindowTitle(title)
+        self.setText(body)
+        self.setModal(True)
+        self.exec_()
 
 
 class HideWidgetsHandler:
@@ -22,4 +32,4 @@ class HideWidgetsHandler:
         elif all([elem[0].isHidden() for elem in self.__children]):
             self.__parent.setHidden(False)
             self.__children = []
-        print([elem[0].isHidden() for elem in self.__children],  all([elem[0].isHidden() for elem in self.__children]))
+        print([elem[0].isHidden() for elem in self.__children], all([elem[0].isHidden() for elem in self.__children]))
